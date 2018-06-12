@@ -1,0 +1,294 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Troubleshooting Connection Issues with Sphero</title><meta name="generator" content="MATLAB 9.0"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-12-02"><meta name="DC.source" content="sphero_troubleshoot_connection.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Troubleshooting Connection Issues with Sphero</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Sphero does not show up in the list of available devices OR Connection error: using icinterface/fopen (line 83)</a></li><li><a href="#4">Connection error: Undefined function 'Bluetooth'</a></li><li><a href="#5">Sphero disconnected without any warning sign</a></li><li><a href="#7">Resetting the Sphero</a></li><li><a href="#8">Warning received when connecting to device</a></li><li><a href="#11">Error when connection gets broken</a></li><li><a href="#15">Error in sphero/readLocator (line 1068)</a></li><li><a href="#16">See Also</a></li></ul></div><h2>Sphero does not show up in the list of available devices OR Connection error: using icinterface/fopen (line 83)<a name="1"></a></h2><p>Sphero is not listed under available devices when creating the <b>sphero</b> object, or the following error is received:</p><pre class="codeinput">sph = sphero
+</pre><pre>Error using sphero (line 498)
+Unable to connect to device. Please check that the
+device name is correct and the device is
+discoverable</pre><pre>Caused by:
+     Error using icinterface/fopen (line 83)
+     Unsuccessful open: Cannot connect to the device.
+     Possible reasons are another application is
+     connected or the device is not available.</pre><p>This might happen after a failed attempt to either create a new sphero object or connect to an existing one, and it might be due to several reasons, such as the device name not being correct, or the device having a different name or being undiscoverable, out of range, or not awake.</p><p>To solve this, especially when creating a new sphero object, make sure that the device name is correct (for example Sphero-RGW for a sphero blinking Red, Green and White). Also, make sure that the sphero is paired to your computer, is awake and not currently connected to another device (it must be blinking with a sequence of 3 colors, see the related section in the readme.txt file for more about this, and the procedure to follow the very first time you use the sphero with MATLAB. You can also refer to the page on <a href="matlab:showdemo('sphero_getting_started')">Getting Started with Sphero Connectivity Package</a>).</p><p>If the above conditions are verified, then trying to create the Sphero object again (perhaps a couple of times) will usually result in a successful connection.</p><p>If you are still unable to connect to the device, close MATLAB, unpair (or remove) the device from the computer and then pair it again, restart MATLAB, and try creating a new sphero object.</p><p>If the problem persists,  try updating the Sphero firmware by connecting to the Sphero app on an Android or iOS device, and repeat the above procedures.</p><h2>Connection error: Undefined function 'Bluetooth'<a name="4"></a></h2><pre>Error using sphero (line 498)
+Unable to connect to device. Please check that the device
+name is correct and the device is discoverable</pre><pre>Caused by:
+   	Undefined function 'instrhwinfo' for input arguments of type 'char'.</pre><p>This error (undefined function 'instrhwinfo' or 'Bluetooth' ...) means that the Instrument Control Toolbox (ICT) is not installed. This package is based on the bluetooth connectivity functions provided by the the ICT, and so therefore you will need to get that toolbox if you want to use this package.</p><h2>Sphero disconnected without any warning sign<a name="5"></a></h2><p>If you notice that the sphero is disconnected but you have not received any error or disconnection message, it means that MATLAB is unaware that the connection got lost. This is unusual because any following command would be unsuccessful, therefore causing a disconnection.</p><p>In any case you can use the "disconnect" command before reconnecting (with the "connect" command).</p><p><a id = "reset"></a></p><h2>Resetting the Sphero<a name="7"></a></h2><p>Sometimes MATLAB loses the connection but the sphero is unaware of it, (that is it still displays a solid color without blinking). This might happen for example when the sphero variable is inadvertedly cleared while the sphero was still connected.</p><p>In such cases, you need to reset the sphero, which can be done by placing it on the charger.</p><p>If the sphero is still running (rotating) then the inductive copper coil under of the robotic chassis does not point straight down but at an angle of approximately 45 degrees between the vertical axes and the axis opposite to the direction of motion. Therefore, the charger must be placed at the same angle so that it is close to the Sphero inductive coil. Alternatively if you move the charger around the Sphero circumference it will find the coil and reset itself.</p><p>Also see this: <a href="https://sphero.zendesk.com/entries/22259484">https://sphero.zendesk.com/entries/22259484</a></p><p>Once the sphero has been reset, then the connect command can be used to reinstate the connection to the sphero.</p><h2>Warning received when connecting to device<a name="8"></a></h2><p>Creating a connection to Sphero device produces the following warning, and the Status of the connection is 'closed':</p><pre class="codeinput">sph = sphero(<span class="string">'Sphero-GPG'</span>);
+</pre><pre>Warning: Error occured when reading Asynchronous message: Received response is not valid
+Warning: The BytesAvailableFcn is being disabled. To enable the callback property
+either connect to the hardware with FOPEN or set the BytesAvailableFcn property.</pre><pre>&gt; In BluetoothApi&gt;BluetoothApi.readResponse at 1145
+ In sphero&gt;sphero.get.Color at 1366</pre><p>This might occur when the Sphero responds with an invalid response when trying to connect to it initially. Please try connecting to it once again.</p><p>
+If the problem persists, reset the Sphero device by placing it on the
+charger (see the section above on <a href = "#reset">Resetting the
+Sphero</a>), and then try to connect to it again.
+</p><h2>Error when connection gets broken<a name="11"></a></h2><p>The two errors and the warning shown below might occur when the connection gets lost. This can happen for a variety of reasons, such as the sphero going out of range, or running out of battery, or going to sleep because of inactivity.</p><p>In such cases, just wake up the sphero, make sure it's in range, and reconnect it using the "connect" command (or recreate the sphero variable).</p><pre>Error using icinterface/fwrite (line 193)
+An error occurred during writing</pre><pre>Error in sphero.internal.BluetoothApi/sendCmd (line 1251)
+                fwrite(obj.Bt, cmd);</pre><pre>Error in sphero/set.Color (line 1354)
+           [responseexpected, seq] = sendCmd(obj.Api, 'setrgbled', [], [], [], uint8(rgb),
+           uint8(obj.SaveLedColor));</pre><pre>Error using sphero.internal.BluetoothApi/readResponse
+(line 1133)
+Response Timeout</pre><pre>Error in sphero/heading (line 351)
+   response = readResponse(obj.Api,
+   responseexpected, seq,
+   obj.ResponseTimeout);</pre><pre>Error in sphero/calibrate (line 1112)
+   result2 = heading(obj, 0);</pre><pre>Warning: Unable to write to device. The Sphero might already be
+disconnected
+&gt; In sphero/BluetoothApi/sendCmd (line 1255)
+  In sphero/set.Color (line 1354)</pre><h2>Error in sphero/readLocator (line 1068)<a name="15"></a></h2><pre>Error using sphero/BluetoothApi/readResponse (line 1133)
+Unknown command ID received. Please check API definition</pre><pre>Error in sphero/readLocator (line 1068)
+           response = readResponse(obj.Api,
+           responseexpected, seq, obj.ResponseTimeout);</pre><p>The most likely cause of this error is that you are using a Sphero with firmware version 3.71, in which this functionality was temporarily removed. Therefore, if you need to use the readLocator function you need to use either an older or newer version of the firmware.</p><p>If "sph" is the name of your Sphero object in the MATLAB workspace, then you can use the following commands to display the firmware version:</p><pre class="codeinput">hw = hardwareinfo(sph);sphver = version(hw);
+firmware = [num2str(sphver.MainSpheroApplicationVersion) <span class="keyword">...</span>
+<span class="string">'.'</span> num2str(sphver.MainSpheroApplicationRev)]
+</pre><h2>See Also<a name="16"></a></h2><p><a href="matlab:showdemo('sphero_examples')">Sphero Connectivity Package Examples</a></p><p>Copyright 2015, The MathWorks, Inc.</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2016b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Troubleshooting Connection Issues with Sphero
+%
+%% Sphero does not show up in the list of available devices OR Connection error: using icinterface/fopen (line 83)
+% Sphero is not listed under available devices when creating the
+% *sphero* object, or the following error is received:
+%
+sph = sphero
+
+%% 
+%
+%  Error using sphero (line 498)
+%  Unable to connect to device. Please check that the
+%  device name is correct and the device is
+%  discoverable
+% 
+%  Caused by:
+%       Error using icinterface/fopen (line 83)
+%       Unsuccessful open: Cannot connect to the device.
+%       Possible reasons are another application is
+%       connected or the device is not available.
+%%
+% This might happen after a failed attempt to either create a new sphero 
+% object or connect to an existing one, and it might be due to several reasons, 
+% such as the device name not being correct, or the device having a different 
+% name or being undiscoverable, out of range, or not awake.
+% 
+% To solve this, especially when creating a new sphero object, make sure 
+% that the device name is correct (for example Sphero-RGW for a sphero 
+% blinking Red, Green and White). Also, make sure that the sphero is paired 
+% to your computer, is awake and not currently connected to another device 
+% (it must be blinking with a sequence of 3 colors, see the related section 
+% in the readme.txt file for more about this, and the procedure to follow 
+% the very first time you use the sphero with MATLAB. You can also refer to
+% the page on <matlab:showdemo('sphero_getting_started') Getting Started with Sphero
+% Connectivity Package>).
+% 
+% If the above conditions are verified, then trying to create the Sphero 
+% object again (perhaps a couple of times) will usually result in a 
+% successful connection.
+% 
+% If you are still unable to connect to the device, close MATLAB, 
+% unpair (or remove) the device from the computer and then pair it again, 
+% restart MATLAB, and try creating a new sphero object.
+%
+% If the problem persists,  try updating the Sphero firmware by connecting
+% to the Sphero app on an Android or iOS device, and repeat the above 
+% procedures.
+% 
+%% Connection error: Undefined function 'Bluetooth'
+%   
+%  Error using sphero (line 498)
+%  Unable to connect to device. Please check that the device
+%  name is correct and the device is discoverable
+% 
+%  Caused by:
+%     	Undefined function 'instrhwinfo' for input arguments of type 'char'.
+%   
+% This error (undefined function 'instrhwinfo' or 'Bluetooth' ...) means 
+% that the Instrument Control Toolbox (ICT) is not installed. This package 
+% is based on the bluetooth connectivity functions provided by the
+% the ICT, and so therefore you will need to get that toolbox if 
+% you want to use this package.
+% 
+%% Sphero disconnected without any warning sign
+% 
+% If you notice that the sphero is disconnected but you have not received 
+% any error or disconnection message, it means that MATLAB is unaware 
+% that the connection got lost. This is unusual because any following command 
+% would be unsuccessful, therefore causing a disconnection.
+% 
+% In any case you can use the "disconnect" command before reconnecting 
+% (with the "connect" command).
+%
+%%
+% <html><a id = "reset"></a></html>
+%% Resetting the Sphero
+% 
+% Sometimes MATLAB loses the connection but the sphero is unaware of it, 
+% (that is it still displays a solid color without blinking). 
+% This might happen for example when the sphero variable is inadvertedly 
+% cleared while the sphero was still connected.
+% 
+% In such cases, you need to reset the sphero, which can be done by 
+% placing it on the charger. 
+% 
+% If the sphero is still running (rotating) then the inductive copper coil 
+% under of the robotic chassis does not point straight down but at an angle 
+% of approximately 45 degrees between the vertical axes and the axis opposite 
+% to the direction of motion. Therefore, the charger must be placed at the 
+% same angle so that it is close to the Sphero inductive coil. Alternatively
+% if you move the charger around the Sphero circumference it will find the 
+% coil and reset itself.
+%
+% Also see this: <https://sphero.zendesk.com/entries/22259484>
+% 
+% Once the sphero has been reset, then the connect command can be used to 
+% reinstate the connection to the sphero.
+
+%% Warning received when connecting to device
+% Creating a connection to Sphero device produces the following warning,
+% and the Status of the connection is 'closed':
+sph = sphero('Sphero-GPG');
+
+%% 
+%  Warning: Error occured when reading Asynchronous message: Received response is not valid 
+%  Warning: The BytesAvailableFcn is being disabled. To enable the callback property
+%  either connect to the hardware with FOPEN or set the BytesAvailableFcn property.
+%  
+%  > In BluetoothApi>BluetoothApi.readResponse at 1145
+%   In sphero>sphero.get.Color at 1366
+%
+% This might occur when the Sphero responds with an invalid response when
+% trying to connect to it initially. Please try connecting to it once
+% again.
+%%
+% <html>
+% If the problem persists, reset the Sphero device by placing it on the 
+% charger (see the section above on <a href = "#reset">Resetting the 
+% Sphero</a>), and then try to connect to it again.
+% </html>
+%% Error when connection gets broken
+%
+% The two errors and the warning shown below might occur when the connection gets lost. 
+% This can happen for a variety of reasons, such as the sphero going out 
+% of range, or running out of battery, or going to sleep because of inactivity. 
+% 
+% In such cases, just wake up the sphero, make sure it's in range, and 
+% reconnect it using the "connect" command (or recreate the sphero
+% variable).
+%%
+%  Error using icinterface/fwrite (line 193)
+%  An error occurred during writing
+%  
+%  Error in sphero.internal.BluetoothApi/sendCmd (line 1251)
+%                  fwrite(obj.Bt, cmd);
+% 
+%  Error in sphero/set.Color (line 1354)
+%             [responseexpected, seq] = sendCmd(obj.Api, 'setrgbled', [], [], [], uint8(rgb),
+%             uint8(obj.SaveLedColor));
+%
+%%  
+%  Error using sphero.internal.BluetoothApi/readResponse
+%  (line 1133)
+%  Response Timeout
+% 
+%  Error in sphero/heading (line 351)
+%     response = readResponse(obj.Api,
+%     responseexpected, seq,
+%     obj.ResponseTimeout);
+% 
+%  Error in sphero/calibrate (line 1112)
+%     result2 = heading(obj, 0);
+% 
+%%
+%  Warning: Unable to write to device. The Sphero might already be
+%  disconnected
+%  > In sphero/BluetoothApi/sendCmd (line 1255)
+%    In sphero/set.Color (line 1354)
+%
+%% Error in sphero/readLocator (line 1068)
+% 
+%  Error using sphero/BluetoothApi/readResponse (line 1133)
+%  Unknown command ID received. Please check API definition
+% 
+%  Error in sphero/readLocator (line 1068)
+%             response = readResponse(obj.Api,
+%             responseexpected, seq, obj.ResponseTimeout);
+%  
+% The most likely cause of this error is that you are using a Sphero
+% with firmware version 3.71, in which this functionality was temporarily
+% removed. Therefore, if you need to use the readLocator function you need 
+% to use either an older or newer version of the firmware. 
+% 
+% If "sph" is the name of your Sphero object in the MATLAB workspace, then 
+% you can use the following commands to display the firmware version:
+% 
+hw = hardwareinfo(sph);sphver = version(hw);
+firmware = [num2str(sphver.MainSpheroApplicationVersion) ...
+'.' num2str(sphver.MainSpheroApplicationRev)]
+%% See Also
+% <matlab:showdemo('sphero_examples') Sphero Connectivity Package Examples>
+%
+%%
+% Copyright 2015, The MathWorks, Inc.
+##### SOURCE END #####
+--></body></html>

@@ -1,0 +1,7 @@
+# When pushing to git ignore the following
+
+#CVX file
+CVX/
+
+# Recorded videos
+SavedData/

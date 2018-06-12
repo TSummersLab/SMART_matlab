@@ -1,0 +1,121 @@
+
+ACTUATORS:
+
+-----------------------------------------------------------------------------------------
+Command                                             Range              units
+-----------------------------------------------------------------------------------------
+
+rawMotor(sph, name, value)                          name: left,right
+                                                    value: 0 to 255     0:off, 255:max
+
+roll(sph, speed, heading)                           speed: -255 to 255
+                                                    heading: 0 to 360
+ 
+backLEDBrightness   (brightness of blue back LED)   0 to 255            0:off, 255:max 
+color               (RGB Values of main LEDs)       0 to 255            0:off, 255:max 
+-----------------------------------------------------------------------------------------
+
+
+SENSORS:
+
+-----------------------------------------------------------------------------------------
+Identifier          Sensor                          Range               units/LSB
+-----------------------------------------------------------------------------------------
+
+accelX              accelerometer axis X, raw       -2048 to 2047       4mG
+accelY              accelerometer axis Y, raw       -2048 to 2047       4mG
+accelZ              accelerometer axis Z, raw       -2048 to 2047       4mG
+
+gyroX               gyro axis X, raw                -32768 to 32767     0.068 degrees
+gyroY               gyro axis Y, raw                -32768 to 32767     0.068 degrees
+gyroZ               gyro axis Z, raw                -32768 to 32767     0.068 degrees
+
+rmotorEmfRaw        right motor back EMF, raw       -32768 to 32767     22.5 cm
+lmotorEmfRaw        left motor back EMF, raw        -32768 to 32767     22.5 cm
+lmotorPwmRaw        left motor, PWM, raw            -2048 to 2047       duty cycle
+rmotorPwmRaw        right motor, PWM, raw           -2048 to 2047       duty cycle
+
+imuPitch            IMU pitch angle, filtered       -179 to 180         degrees
+imuRoll             IMU roll angle, filtered        -179 to 180         degrees
+imuYaw              IMU yaw angle, filtered         -179 to 180         degrees
+
+accelXFilt          accelerometer axis X, filtered  -32768 to 32767     1/4096 G
+accelYFilt          accelerometer axis Y, filtered  -32768 to 32767     1/4096 G
+accelZFilt          accelerometer axis Z, filtered  -32768 to 32767     1/4096 G
+
+gyroXFilt           gyro axis X, filtered           -20000 to 20000     0.1 dps
+gyroYFilt           gyro axis X, filtered           -20000 to 20000     0.1 dps
+gyroZFilt           gyro axis X, filtered           -20000 to 20000     0.1 dps
+
+rmotorEmfFilt       right motor back EMF, filtered  -32768 to 32767     22.5 cm
+lmotorEmfFilt       left motor back EMF, filtered   -32768 to 32767     22.5 cm
+
+Q0                  Quaternion Q0                   -10000 to 10000     1/10000 Q
+Q1                  Quaternion Q1                   -10000 to 10000     1/10000 Q
+Q2                  Quaternion Q2                   -10000 to 10000     1/10000 Q
+Q3                  Quaternion Q3                   -10000 to 10000     1/10000 Q
+
+distX               Odometer X                      -32768 to 32767     cm
+distY               Odometer Y                      -32768 to 32767     cm
+
+accelOne            AccelOne                        0 to 8000           1 mG
+
+velX                Velocity X                      -32768 to 32767     mm/s
+velY                Velocity Y                      -32768 to 32767     mm/s
+-----------------------------------------------------------------------------------------
+
+
+REFERENCE COORDINATE SYSTEMS:
+
+The Sphero body-fixed coordinate system (a.k.a. "body reference frame") 
+has the x-axis originating from the blue back LED, going through the center 
+of the Sphero and pointing ahead of it. You can essentially think about the 
+back LED as an engine that propels the Sphero forward along its body x-axis. 
+The y-axis of this local body-fixed coordinate frame points to the right 
+of the x-axis, however the z-axis points up (not down).
+
+When the Sphero is awaken, its position is set to the origin of an earth
+reference frame with the y-axis aligned with its body x (not y) axis (in 
+other words the y-axis points right ahead). The x-axis of this earth-fixed 
+frame points to the right (of the earth y-axis) and the z-axis points down. 
+The measured velocities and accelerations are also expressed in earth frame.
+
+The measured roll, pitch, and yaw angles express the counterclockwise 
+rotation of the Sphero along its body x,y, and z-axis respectively. 
+When both body-fixed x and y-axis are parallel to the ground both roll 
+and pitch are zero (in this case the z body-axis points straight up, 
+in exact opposition to the earth z-axis which always points straight down).
+When the body x-axis coincides with the earth y-axis and the body y 
+axis coincides when the earth x-axis then the yaw is also zero.
+This happens when the sphero is awaken as well as after it is calibrated.
+
+The heading argument of the roll command is expressed in earth frame.
+Therefore, when a roll command is given to move the sphero ahead at a given 
+speed (e.g. roll(sph,100,0)), the sphero moves along the earth y-axis, and 
+consequently the position along the y direction (in cm) will increase. 
+The measured speed and acceleration will be just the first and second time 
+derivative of the position. The Sphero will stop when the motion timeout is 
+reached or when a different motion command (e.g. sph.brake) is received. 
+Note that maximum Sphero speed goes from 1 to 2 m/s depending on the model.
+
+When a roll command is given to rotate the Sphero of a certain heading angle,
+the rotation happens counterclockwise along the earth z-axis, (therefore
+clockwise looking at the Sphero from above). So for example the command 
+roll(sph,0,90) rotates the sphero so that its body x-axis points 90 degrees 
+to the right of the y-axis position in the earth reference frame (so after 
+this command the body x-axis will point in the be opposite direction of the 
+earth x-axis). Note that in this case, since the yaw is a rotation along the 
+body (not earth) z-axis, the measured yaw will be -90.
+
+A generic roll command (e.g. roll(sph,speed,heading)) first rotates the 
+Sphero clockwise (looking from the top) so that its body x-axis is aligned 
+with the specified heading angle with respect to the original earth frame, 
+and then then moves it ahead (along its body x-axis) with the chosen speed.
+
+The calibrate command (e.g. Calibrate(sph,60) rotates the Sphero of a 
+certain angle (still clockwise along the z-axis), sets it parallel to the 
+ground, and then resets the earth reference frame to a new one with the 
+origin in the current sphero position and its x,y,z axes aligned with the 
+sphero y,x, and z axes respectively (so that roll, pitch, and yaw are zero).
+
+-----------------------------------------------------------------------------------------

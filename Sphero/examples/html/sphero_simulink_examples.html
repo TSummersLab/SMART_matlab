@@ -1,0 +1,467 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Sphero Simulink Library and Examples</title><meta name="generator" content="MATLAB 9.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-01-13"><meta name="DC.source" content="sphero_simulink_examples.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Sphero Simulink Library and Examples</h1><!--introduction--><p>This example describes the Simulink library for the Sphero Connectivity package, and how the blocks from the library can be used to control a Sphero.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Sphero Simulink blocks</a></li><li><a href="#3">Using the Read Sensors blocks to read acceleration</a></li><li><a href="#5">Open-loop example using Roll block</a></li><li><a href="#7">Open-loop example with Raw Motor block</a></li><li><a href="#9">Open-loop example using the Raw Motor Sphero Kinamatic Model</a></li><li><a href="#11">Closed-loop example using Roll block</a></li><li><a href="#15">See Also</a></li></ul></div><h2 id="1">Sphero Simulink blocks</h2><p>The Sphero Connectivity Package comes equipped with a Simulink library containing basic sensing and actuation blocks.</p><p><a href="matlab:open('sphero_lib')">Open the library</a></p><pre class="codeinput">open(<span class="string">'sphero_lib'</span>);
+</pre><img vspace="5" hspace="5" src="sphero_simulink_examples_01.png" alt=""> <p>Specifically, the <b>Setup</b> block is needed to select a preexisting workspace Sphero object for execution. That preexisiting Sphero object is then used during the execution by the other blocks that specify the same name. If you want to use different Spheros in the same execution then each of them must have its own Setup block.</p><p>The <b>Real Time Pacer</b> block can be used to slow down a fast execution so it can track real time.</p><p>The <b>Read Sensor</b> block calls the MATLAB "readSensor" function, which returns the value of a specified sensor.</p><p>The <b>Read Locator</b> block calls the MATLAB "readLocator" function, which returns the current location and velocity components of the Sphero.</p><p>The <b>Roll</b> block calls the MATLAB "roll" function to move the Sphero.</p><p>The <b>Raw Motor</b> block calls the MATLAB "rawMotor" function to directly (and independently) command the speed ot the two sphero motors (wheels).</p><p>The bottom 4 blocks feature different mathematical models of the Sphero. The "Kinematic" models approximate the sphero kinematic using an unicycle model. The Grey-Box models also model the dynamics using a first order transfer function. In both cases the inputs can be either desired speed and angle or left and right wheel speed. <p><p> Also note that you can open the simulink example models (which will be shown shortly thereafter), by double clicking on the three blocks on the right.</p><pre class="codeinput">close_system(<span class="string">'sphero_lib'</span>);
+</pre><h2 id="3">Using the Read Sensors blocks to read acceleration</h2><p><a href="matlab:open('accel_sim')">Open the example</a></p><pre class="codeinput">open(<span class="string">'accel_sim'</span>);
+</pre><img vspace="5" hspace="5" src="sphero_simulink_examples_02.png" alt=""> <img vspace="5" hspace="5" src="sphero_simulink_examples_03.png" alt=""> <p>This example uses three Read Sensor Roll blocks to sense acceleration along the three body axis of the Sphero.</p><p>The readSensor block can be used to sense any of the following signals: 'accelX', 'accelY', 'accelZ', 'gyroX', 'gyroY', 'gyroZ','rmotorEmfRaw', 'lmotorEmfRaw', 'lmotorPwmRaw', 'rmotorPwmRaw','imuPitch', 'imuRoll', 'imuYaw', 'accelXFilt', 'accelYFilt','accelZFilt', 'gyroXFilt', 'gyroYFilt', 'gyroZFilt','rmotorEmfFilt', 'lmotorEmfFilt', 'Q0', 'Q1', 'Q2', 'Q3', 'distX','distY', 'accelOne', 'velX', 'velY'</p><p>A sphero object must be created in the workspace before executing the model</p><pre class="codeinput"><span class="comment">% Create a Sphero object (if it does not exist)</span>
+<span class="keyword">if</span> ~exist(<span class="string">'sph'</span>,<span class="string">'var'</span>),
+    sph = sphero(); <span class="comment">% Create a Sphero object</span>
+<span class="keyword">end</span>
+
+<span class="comment">% make sure the object is connected</span>
+connect(sph);
+
+<span class="comment">% ping it</span>
+result = ping(sph);
+
+<span class="comment">% interrupt the example if ping was not successful</span>
+<span class="keyword">if</span> ~result,
+    disp(<span class="string">'Example aborted due to unsuccessful ping'</span>);
+    <span class="keyword">return</span>,
+<span class="keyword">end</span>
+
+<span class="comment">% now we can actually execute the model: you can move the sphero around</span>
+<span class="comment">% to see the components of the acceleration along its 3 body axes changing</span>
+sim(<span class="string">'accel_sim'</span>);
+
+<span class="comment">% and close the system when the simulation is terminated</span>
+close_system(<span class="string">'accel_sim'</span>);
+
+f1 = figure(1);
+plot(yout(:, 1), yout(:, 2:4)); grid
+title(<span class="string">'Acceleration of Sphero along its X,Y and Z body axis'</span>)
+xlabel(<span class="string">'time (sec)'</span>);ylabel(<span class="string">'acceleration'</span>);
+legend(<span class="string">'accelX'</span>,<span class="string">'accelY'</span>,<span class="string">'accelZ'</span>);
+</pre><img vspace="5" hspace="5" src="sphero_simulink_examples_04.png" alt=""> <h2 id="5">Open-loop example using Roll block</h2><p><a href="matlab:open('roll_sim')">Open the example</a></p><pre class="codeinput">open(<span class="string">'roll_sim'</span>);
+</pre><img vspace="5" hspace="5" src="sphero_simulink_examples_05.png" alt=""> <img vspace="5" hspace="5" src="sphero_simulink_examples_06.png" alt=""> <p>This example uses the Roll block to move the sphero, along a direction specified by a sinusoid, with a constant speed of 70/255. This should move the sphero along a path resembling an eight figure.</p><p>The Read Locator block is used to gather the Sphero's position and velocity.</p><p>A sphero object must be created in the workspace before starting</p><pre class="codeinput"><span class="comment">% Create a Sphero object (if it does not exist)</span>
+<span class="keyword">if</span> ~exist(<span class="string">'sph'</span>,<span class="string">'var'</span>),
+    sph = sphero(); <span class="comment">% Create a Sphero object</span>
+<span class="keyword">end</span>
+
+<span class="comment">% make sure the object is connected</span>
+connect(sph);
+
+<span class="comment">% ping it</span>
+result = ping(sph);
+
+<span class="comment">% interrupt the example if ping was not successful</span>
+<span class="keyword">if</span> ~result,
+    disp(<span class="string">'Example aborted due to unsuccessful ping'</span>);
+    <span class="keyword">return</span>,
+<span class="keyword">end</span>
+
+<span class="comment">% reset the calibration of the Sphero</span>
+calibrate(sph, 0);
+
+<span class="comment">% now we can actually execute the model</span>
+sim(<span class="string">'roll_sim'</span>);
+
+<span class="comment">% and close the system when the execution is terminated</span>
+close_system(<span class="string">'roll_sim'</span>);
+
+f2 = figure(2);
+plot(yout(:, 2), yout(:, 3), <span class="string">'*'</span>)
+title({<span class="string">'x-y position of Sphero when running'</span>, <span class="string">'open-loop example with Roll block'</span>})
+</pre><pre class="codeoutput">roll_sim/Real-Time Pacer: Average idle real time per major time step = 0.0696618 sec
+</pre><img vspace="5" hspace="5" src="sphero_simulink_examples_07.png" alt=""> <h2 id="7">Open-loop example with Raw Motor block</h2><p><a href="matlab:open('rawmotor_sim')">Open the example</a></p><pre class="codeinput">open(<span class="string">'rawmotor_sim'</span>);
+</pre><img vspace="5" hspace="5" src="sphero_simulink_examples_08.png" alt=""> <img vspace="5" hspace="5" src="sphero_simulink_examples_09.png" alt=""> <p>This example uses the Raw Motor block to independently command the speed of the two sphero wheels, following two sinusoids with a pi/2 phase difference. This should move the sphero along a circular path.</p><p>The Read Locator block is used to gather the Sphero's position and velocity.</p><pre class="codeinput"><span class="comment">% ping the sphero</span>
+result = ping(sph);
+
+<span class="comment">% interrupt the example if ping was not successful</span>
+<span class="keyword">if</span> ~result,
+    disp(<span class="string">'Example aborted due to unsuccessful ping'</span>);
+    <span class="keyword">return</span>,
+<span class="keyword">end</span>
+
+<span class="comment">% reset the calibration of the Sphero</span>
+calibrate(sph, 0);
+
+<span class="comment">% now we can actually execute the model</span>
+sim(<span class="string">'rawmotor_sim'</span>);
+
+<span class="comment">% and close the system when the execution is terminated</span>
+close_system(<span class="string">'rawmotor_sim'</span>);
+
+f3 = figure(3);
+plot(yout(:, 2), yout(:, 3), <span class="string">'*'</span>)
+title({<span class="string">'x-y position of Sphero when running'</span>, <span class="string">'open-loop example with Raw Motor block'</span>})
+</pre><img vspace="5" hspace="5" src="sphero_simulink_examples_10.png" alt=""> <h2 id="9">Open-loop example using the Raw Motor Sphero Kinamatic Model</h2><p><a href="matlab:open('sph_control_sim')">Open the example</a></p><pre class="codeinput">open(<span class="string">'rawmotor_sim_grey'</span>);
+</pre><img vspace="5" hspace="5" src="sphero_simulink_examples_11.png" alt=""> <img vspace="5" hspace="5" src="sphero_simulink_examples_12.png" alt=""> <p>This example is similar to the one using the raw motor block but uses a Grey-Box model of the Sphero (in which separate power commands are given to the left and right motors) instead of the Sphero itself.</p><pre class="codeinput">sim(<span class="string">'rawmotor_sim_grey'</span>);
+
+<span class="comment">% and close the system when the execution is terminated</span>
+close_system(<span class="string">'rawmotor_sim_grey'</span>);
+
+f4 = figure(4);
+plot(yout(:, 2), yout(:, 3), <span class="string">'*'</span>)
+title({<span class="string">'x-y position of Sphero when running'</span>, <span class="string">'rawmotor grey-box model example'</span>})
+</pre><pre class="codeoutput">rawmotor_sim_grey/Real-Time Pacer: Average idle real time per major time step = 0.000276648 sec
+</pre><img vspace="5" hspace="5" src="sphero_simulink_examples_13.png" alt=""> <h2 id="11">Closed-loop example using Roll block</h2><p><a href="matlab:open('sph_control_sim')">Open the example</a></p><pre class="codeinput">open(<span class="string">'sph_control_sim'</span>);
+</pre><img vspace="5" hspace="5" src="sphero_simulink_examples_14.png" alt=""> <img vspace="5" hspace="5" src="sphero_simulink_examples_15.png" alt=""> <img vspace="5" hspace="5" src="sphero_simulink_examples_16.png" alt=""> <p>In this example, the "desired speed" block works as a controller. It commands the desired velocity (speed and angle) of the sphero, in order to minimize the difference between a reference point (which moves round a square) and the measured position and velocity.</p><p>The reference position and velocity are generated by the "Reference" block, depending on a set of points (arranged in a square) to be visited at a particular time. Both point positions and time are parameters of the block.</p><p>The sphero position and velocity are retrieved by the "Read Locator" block.</p><pre class="codeinput"><span class="comment">% ping the sphero</span>
+result = ping(sph);
+
+<span class="comment">% interrupt the example if ping was not successful</span>
+<span class="keyword">if</span> ~result,
+    disp(<span class="string">'Example aborted due to unsuccessful ping'</span>);
+    <span class="keyword">return</span>,
+<span class="keyword">end</span>
+
+<span class="comment">% reset the calibration of the Sphero</span>
+calibrate(sph, 0);
+
+<span class="comment">% now we can actually execute</span>
+sim(<span class="string">'sph_control_sim'</span>);
+
+<span class="comment">% and close the system when the execution is terminated</span>
+close_system(<span class="string">'sph_control_sim'</span>);
+
+f5 = figure(5);
+plot(yout(:, 2), yout(:, 3), <span class="string">'*'</span>)
+title({<span class="string">'x-y position of Sphero when running'</span>, <span class="string">'closed loop control example'</span>});
+</pre><img vspace="5" hspace="5" src="sphero_simulink_examples_17.png" alt=""> <pre class="codeinput">open(<span class="string">'sph_control_sim_grey'</span>);
+
+<span class="comment">% This example is similar to the previous one but uses a Grey-Box</span>
+<span class="comment">% model of the Sphero instead of the Sphero itself. THe Grey-Box</span>
+<span class="comment">% model consists of the Kinematic model augmented with a transfer</span>
+<span class="comment">% function on the speed channel</span>
+<span class="comment">%</span>
+
+sim(<span class="string">'sph_control_sim_grey'</span>);
+
+<span class="comment">% and close the system when the simulation is terminated</span>
+close_system(<span class="string">'sph_control_sim_grey'</span>);
+
+f6 = figure(6);
+plot(yout(:, 2), yout(:, 3), <span class="string">'*'</span>)
+title({<span class="string">'x-y position of model when running'</span>, <span class="string">'grey-box model control example'</span>})
+</pre><pre class="codeoutput">sph_control_sim_grey/Real-Time Pacer: Average idle real time per major time step = 0.085299 sec
+</pre><img vspace="5" hspace="5" src="sphero_simulink_examples_18.png" alt=""> <p>Close all figures if required close(f1); close(f2); close(f3); close(f4); close(f5); close(f6); close(f7); close(f8);</p><pre class="codeinput"><span class="comment">% Disconnect the Sphero</span>
+disconnect(sph);
+</pre><h2 id="15">See Also</h2><p><a href="matlab:showdemo('sphero_examples')">Sphero Connectivity Package Examples</a></p><p>Copyright 2017, The MathWorks, Inc.</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2016b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Sphero Simulink Library and Examples
+% This example describes the Simulink library for the Sphero Connectivity
+% package, and how the blocks from the library can be used to control a
+% Sphero.
+
+%% Sphero Simulink blocks
+% The Sphero Connectivity Package comes equipped with a Simulink library
+% containing basic sensing and actuation blocks.
+%
+% <matlab:open('sphero_lib') Open the library>
+
+open('sphero_lib');
+%%
+% Specifically, the *Setup* block is needed to select a preexisting workspace
+% Sphero object for execution. That preexisiting Sphero object is then used 
+% during the execution by the other blocks that specify the same name. 
+% If you want to use different Spheros in the same execution then each 
+% of them must have its own Setup block. 
+% 
+% The *Real Time Pacer* block can be used to slow down a fast execution 
+% so it can track real time. 
+% 
+% The *Read Sensor* block calls the MATLAB "readSensor" function, which
+% returns the value of a specified sensor.
+% 
+% The *Read Locator* block calls the MATLAB "readLocator" function, which
+% returns the current location and velocity components of the Sphero.
+% 
+% The *Roll* block calls the MATLAB "roll" function to move the Sphero.
+%
+% The *Raw Motor* block calls the MATLAB "rawMotor" function to directly (and
+% independently) command the speed ot the two sphero motors (wheels). 
+% 
+% Also note that you can open the simulink example models (which will be shown
+% shortly thereafter), by double clicking on the three blocks on the right.
+
+close_system('sphero_lib');
+
+%% Using the Read Sensors blocks to read acceleration
+%
+% <matlab:open('accel_sim') Open the example>
+
+open('accel_sim');
+
+%%
+% This example uses three Read Sensor Roll blocks to sense acceleration 
+% along the three body axis of the Sphero.
+% 
+% The readSensor block can be used to sense any of the following signals:
+% 'accelX', 'accelY', 'accelZ', 'gyroX', 'gyroY', 'gyroZ','rmotorEmfRaw', 
+% 'lmotorEmfRaw', 'lmotorPwmRaw', 'rmotorPwmRaw','imuPitch', 'imuRoll', 
+% 'imuYaw', 'accelXFilt', 'accelYFilt','accelZFilt', 'gyroXFilt', 
+% 'gyroYFilt', 'gyroZFilt','rmotorEmfFilt', 'lmotorEmfFilt', 
+% 'Q0', 'Q1', 'Q2', 'Q3', 'distX','distY', 'accelOne', 'velX', 'velY'
+%
+% A sphero object must be created in the workspace before executing the
+% model
+
+% Create a Sphero object (if it does not exist)
+if ~exist('sph','var'),
+    sph = sphero(); % Create a Sphero object
+end
+
+% make sure the object is connected
+connect(sph);
+
+% ping it
+result = ping(sph);
+
+% interrupt the example if ping was not successful
+if ~result, 
+    disp('Example aborted due to unsuccessful ping');
+    return, 
+end
+
+% now we can actually execute the model: you can move the sphero around 
+% to see the components of the acceleration along its 3 body axes changing
+sim('accel_sim');
+
+% and close the system when the simulation is terminated
+close_system('accel_sim');
+
+f1 = figure(1);
+plot(yout(:, 1), yout(:, 2:4)); grid
+title('Acceleration of Sphero along its X,Y and Z body axis')
+xlabel('time (sec)');ylabel('acceleration');
+legend('accelX','accelY','accelZ');
+
+%% Open-loop example using Roll block
+%
+% <matlab:open('roll_sim') Open the example>
+
+open('roll_sim');
+
+%%
+% This example uses the Roll block to move the sphero, along a direction
+% specified by a sinusoid, with a constant speed of 70/255. This should 
+% move the sphero along a path resembling an eight figure.
+% 
+% The Read Locator block is used to gather the Sphero's position and velocity.
+%
+% A sphero object must be created in the workspace before starting
+
+% Create a Sphero object (if it does not exist)
+if ~exist('sph','var'),
+    sph = sphero(); % Create a Sphero object
+end
+
+% make sure the object is connected
+connect(sph);
+
+% ping it
+result = ping(sph);
+
+% interrupt the example if ping was not successful
+if ~result, 
+    disp('Example aborted due to unsuccessful ping');
+    return, 
+end
+
+% reset the calibration of the Sphero
+calibrate(sph, 0);
+
+% now we can actually execute the model
+sim('roll_sim');
+
+% and close the system when the execution is terminated
+close_system('roll_sim');
+
+f2 = figure(2);
+plot(yout(:, 2), yout(:, 3), '*')
+title({'x-y position of Sphero when running', 'open-loop example with Roll block'})
+
+%% Open-loop example with Raw Motor block
+%
+% <matlab:open('rawmotor_sim') Open the example>
+
+open('rawmotor_sim');
+%%
+% This example uses the Raw Motor block to independently command the
+% speed of the two sphero wheels, following two sinusoids with a pi/2 phase
+% difference. This should move the sphero along a circular path.
+% 
+% The Read Locator block is used to gather the Sphero's position and velocity.
+
+% ping the sphero
+result = ping(sph);
+
+% interrupt the example if ping was not successful
+if ~result, 
+    disp('Example aborted due to unsuccessful ping');
+    return, 
+end
+
+% reset the calibration of the Sphero
+calibrate(sph, 0);
+
+% now we can actually execute the model
+sim('rawmotor_sim');
+
+% and close the system when the execution is terminated
+close_system('rawmotor_sim');
+
+f3 = figure(3);
+plot(yout(:, 2), yout(:, 3), '*')
+title({'x-y position of Sphero when running', 'open-loop example with Raw Motor block'})
+
+%% Open-loop example using the Raw Motor Sphero Kinamatic Model
+%
+% <matlab:open('sph_control_sim') Open the example>
+
+open('rawmotor_sim_grey');
+%%
+% This example is similar to the one using the raw motor block but
+% uses a Grey-Box model of the Sphero (in which separate power commands 
+% are given to the left and right motors) instead of the Sphero itself.
+% 
+
+sim('rawmotor_sim_grey');
+
+% and close the system when the execution is terminated
+close_system('rawmotor_sim_grey');
+
+f4 = figure(4);
+plot(yout(:, 2), yout(:, 3), '*')
+title({'x-y position of Sphero when running', 'rawmotor grey-box model example'})
+
+%% Closed-loop example using Roll block
+%
+% <matlab:open('sph_control_sim') Open the example>
+
+open('sph_control_sim');
+%%
+% In this example, the "desired speed" block works as a controller. It 
+% commands the desired velocity (speed and angle) of the sphero, in order
+% to minimize the difference between a reference point (which moves round a 
+% square) and the measured position and velocity. 
+%
+% The reference position and velocity are generated by the
+% "Reference" block, depending on a set of points (arranged in a square) 
+% to be visited at a particular time. Both point positions and time are 
+% parameters of the block.
+% 
+% The sphero position and velocity are retrieved by the "Read
+% Locator" block.
+
+% ping the sphero
+result = ping(sph);
+
+% interrupt the example if ping was not successful
+if ~result, 
+    disp('Example aborted due to unsuccessful ping');
+    return, 
+end
+
+% reset the calibration of the Sphero
+calibrate(sph, 0);
+
+% now we can actually execute
+sim('sph_control_sim');
+
+% and close the system when the execution is terminated
+close_system('sph_control_sim');
+
+f5 = figure(5);
+plot(yout(:, 2), yout(:, 3), '*')
+title({'x-y position of Sphero when running', 'closed loop control example'});
+
+
+%%
+open('sph_control_sim_grey');
+
+% This example is similar to the previous one but uses a Grey-Box
+% model of the Sphero instead of the Sphero itself. THe Grey-Box 
+% model consists of the Kinematic model augmented with a transfer 
+% function on the speed channel
+% 
+
+sim('sph_control_sim_grey');
+
+% and close the system when the simulation is terminated
+close_system('sph_control_sim_grey');
+
+f6 = figure(6);
+plot(yout(:, 2), yout(:, 3), '*')
+title({'x-y position of model when running', 'grey-box model control example'})
+
+%%
+% Close all figures if required
+% close(f1); close(f2); close(f3); close(f4);
+% close(f5); close(f6); close(f7); close(f8);
+
+% Disconnect the Sphero
+disconnect(sph);
+%% See Also
+% <matlab:showdemo('sphero_examples') Sphero Connectivity Package Examples>
+
+%%
+% Copyright 2017, The MathWorks, Inc.
+##### SOURCE END #####
+--></body></html>

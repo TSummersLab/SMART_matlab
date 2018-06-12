@@ -1,0 +1,374 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Sphero Motion Control</title><meta name="generator" content="MATLAB 9.0"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-12-02"><meta name="DC.source" content="sphero_motion_control.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Sphero Motion Control</h1><!--introduction--><p>This example shows how to control the motion of a Sphero using the Sphero Connectivity Package</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#2">Introduction</a></li><li><a href="#3">Prerequisites</a></li><li><a href="#4">Create a Sphero object (if it does not exist)</a></li><li><a href="#7">Specify the points to be traversed</a></li><li><a href="#9">Closed loop control of Sphero to traverse specified points</a></li><li><a href="#11">Plot the result</a></li><li><a href="#13">Disconnect the Sphero</a></li><li><a href="#14">Summary</a></li><li><a href="#15">More About</a></li><li><a href="#16">See Also</a></li></ul></div><p><a href="matlab:edit('sphero_motion_control')">Open this example</a></p><h2>Introduction<a name="2"></a></h2><p>In this example, we will use the data received from the onboard sensors of the Sphero to perform closed loop control of the motion of the Sphero. We will provide a set of points that we want the Sphero to pass through. The data from the sensors will be used to estimate the current position of the Sphero, which will be used by the controller to compute the speed and angle with which the Sphero will be commanded to move.</p><h2>Prerequisites<a name="3"></a></h2><p>It is helpful to complete the <a href="matlab:showdemo('sphero_getting_started')">Getting Started with Sphero Connectivity Package</a> example.</p><h2>Create a Sphero object (if it does not exist)<a name="4"></a></h2><pre class="codeinput"><span class="keyword">if</span> ~exist(<span class="string">'sph'</span>,<span class="string">'var'</span>),
+    sph = sphero(); <span class="comment">% Create a Sphero object</span>
+<span class="keyword">end</span>
+
+<span class="comment">% make sure the object is connected</span>
+connect(sph);
+
+<span class="comment">% ping it</span>
+result = ping(sph);
+
+<span class="comment">% interrupt the example if ping was not successful</span>
+<span class="keyword">if</span> ~result,
+    disp(<span class="string">'Example aborted due to unsuccessful ping'</span>);
+    <span class="keyword">return</span>,
+<span class="keyword">end</span>
+</pre><p>The Bluetooth name of the device that you would like to connect to can be specified when using the <b>sphero</b> command, instead of searching for all the paired devices.</p><p>Turn on handshaking in order to make sure that the Sphero is able to receive and respond to messages. Also, calibrate the orientation of the Sphero so that it points in the desired direction, before we start moving it around.</p><pre class="codeinput">sph.Handshake = 1;  <span class="comment">%Turn on handshaking</span>
+sph.BackLEDBrightness = 255;
+calibrate(sph, 0); <span class="comment">%Calibrate the orientation of the sphero. Use this</span>
+<span class="comment">% command with different values of the angle in order to orient the Sphero in the desired direction.</span>
+</pre><h2>Specify the points to be traversed<a name="7"></a></h2><p>Specification of the x and y coordinates of the points to be traversed on the plane (in cm):</p><pre class="codeinput">despoints = [0 100;
+            -50 100;
+            50 75;
+            -50 25;
+            50 0;
+            0 0];
+
+numpoints = size(despoints, 1);
+
+<span class="comment">%Read the current location of the Sphero</span>
+[xstart, ystart, ~, ~, groundspeed] = readLocator(sph);
+
+<span class="comment">% Plot the points to be traversed</span>
+labels = cellstr(num2str([1:numpoints]') );  <span class="comment">% labels correspond to the order in which the points are to be traversed</span>
+figure(1)
+clf
+plot(despoints(:, 1), despoints(:,2), <span class="string">'b+'</span>)
+text(despoints(:,1), despoints(:,2), labels, <span class="string">'VerticalAlignment'</span>,<span class="string">'bottom'</span>, <span class="keyword">...</span>
+                             <span class="string">'HorizontalAlignment'</span>,<span class="string">'right'</span>)
+title(<span class="string">'Points to be traversed'</span>);
+axis([-100 100 -50 150])
+hold <span class="string">on</span>
+plot(double(xstart), double(ystart), <span class="string">'ko'</span>);
+hold <span class="string">off</span>
+</pre><p>Specify the other parameters that are used in controlling the Sphero:</p><pre class="codeinput">tfinal = 30; <span class="comment">% Time limit on the motion of the Sphero</span>
+stopRadius = 3;  <span class="comment">% Radius of the circle around the point, within which the Sphero should try to stop</span>
+maxspeed = 150; <span class="comment">% Max speed for saturation</span>
+minspeed = -150;  <span class="comment">% Min speed for saturation</span>
+restartspeed = 50; <span class="comment">% Minimum speed required to restart the Sphero, if it</span>
+<span class="comment">% stops at a point where it is not supposed to stop. This minumum speed is</span>
+<span class="comment">% required to get the Sphero to start moving again, due to its inertia</span>
+
+<span class="comment">% Controller gains</span>
+Kp = 1;
+Ki = 0.1;
+Kd = 0.1;
+
+<span class="comment">% Initialize the variables to store the x, y coordinates of the points that</span>
+<span class="comment">% the Sphero actually goes through, and the distance from the desired point</span>
+xlog = [];
+ylog = [];
+distlog = [];
+</pre><h2>Closed loop control of Sphero to traverse specified points<a name="9"></a></h2><p>Initialize the variables for traversing the points:</p><pre class="codeinput">idx = 1;
+xcur = double(xstart);
+ycur = double(ystart);
+t0 = cputime;
+</pre><p>Run the while loop until the timout occurs, or when all points have been traversed. The <b>control_sphero</b> function implements the PID Controller, which outputs the desired speed of the robot, based on the distance between the current point and the next point that has to be reached.</p><pre class="codeinput"><span class="keyword">while</span>(cputime-t0&lt;tfinal) &amp;&amp; idx&lt;=numpoints
+    xdes = despoints(idx, 1);
+    ydes = despoints(idx, 2);
+
+    <span class="comment">% Angle and distance calculation</span>
+    <span class="comment">% Angle by which the Sphero should be rotated and the distance that it</span>
+    <span class="comment">% should move by in order to reach desired position.</span>
+    <span class="comment">% The angle is measured with respect to the Sphero's y-axis</span>
+    <span class="comment">% (or orientation of sphero)</span>
+    angle = rad2deg(atan2(double(xdes-xcur), double(ydes-ycur)));
+    dist = sqrt((xdes-double(xcur)).^2 + (ydes-double(ycur)).^2); <span class="comment">%Distance or the error</span>
+
+    <span class="comment">%Clear the persistent variables in the function, from the previous run.</span>
+    <span class="comment">%If these variables are not cleared, the error values from the previous</span>
+    <span class="comment">%run will be used, which can cause issues</span>
+    control_sphero(dist, double(groundspeed), Kp, Ki, Kd, stopRadius, maxspeed, minspeed, restartspeed, 1);
+
+    <span class="keyword">while</span> dist&gt;stopRadius
+        speed = control_sphero(dist, double(groundspeed), Kp, Ki, Kd, stopRadius, maxspeed, minspeed, restartspeed, 0);
+
+        <span class="comment">% Move the robot in the desired direction (specified by the 'angle'</span>
+        <span class="comment">% with regards to the y-orientation of the sphero)</span>
+        result = roll(sph, speed, angle);
+
+        <span class="comment">% Read the current position and speed of the robot</span>
+        [xcur, ycur,~, ~, groundspeed] = readLocator(sph);
+
+        <span class="comment">% Angle and distance calculation</span>
+        angle = rad2deg(atan2(double(xdes-xcur), double(ydes-ycur)));
+        dist = sqrt((xdes-double(xcur)).^2 + (ydes-double(ycur)).^2); <span class="comment">%Distance or the error</span>
+
+        xlog(end+1) = xcur;
+        ylog(end+1) = ycur;
+        distlog(end+1) = dist;
+    <span class="keyword">end</span>
+    <span class="comment">%Increment the index to the next point that has to be traversed</span>
+    idx = idx+1;
+<span class="keyword">end</span>
+
+brake(sph);
+</pre><h2>Plot the result<a name="11"></a></h2><pre class="codeinput">hold <span class="string">on</span>
+plot(xlog, ylog, <span class="string">'rx'</span>);
+hold <span class="string">off</span>
+legend(<span class="string">'Desired points for traversal'</span>, <span class="string">'Starting location'</span>, <span class="string">'Motion of Sphero'</span>)
+
+figure(2)
+plot(distlog)
+title(<span class="string">'Error between the position of Sphero and desired point'</span>)
+</pre><p><img vspace="5" hspace="5" src="sphero_motion_control_fig1.png" alt=""> </p><p><img vspace="5" hspace="5" src="sphero_motion_control_fig2.png" alt=""> </p><h2>Disconnect the Sphero<a name="13"></a></h2><pre class="codeinput">disconnect(sph);
+<span class="comment">%Clear the persistent variables in the control function</span>
+control_sphero(dist, groundspeed, Kp, Ki, Kd, stopRadius, maxspeed, minspeed, restartspeed, 1);
+</pre><h2>Summary<a name="14"></a></h2><p>This example introduced an application example where the motion of the Sphero is controlled based on the onboard readings, in order to trasverse certain points on the plane.</p><h2>More About<a name="15"></a></h2><p><a href="matlab:doc('control_sphero')">Controller for Sphero motion</a></p><h2>See Also<a name="16"></a></h2><p><a href="matlab:showdemo('sphero_examples')">Sphero Connectivity Package Examples</a></p><p>Copyright 2015, The MathWorks, Inc.</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2016b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Sphero Motion Control
+% This example shows how to control the motion of a Sphero using the 
+% Sphero Connectivity Package
+%%
+% <matlab:edit('sphero_motion_control') Open this example>
+%% Introduction
+% In this example, we will use the data received from the onboard sensors
+% of the Sphero to perform closed loop control of the motion of the Sphero.
+% We will provide a set of points that we want the Sphero to pass through. 
+% The data from the sensors will be used to estimate the current position 
+% of the Sphero, which will be used by the controller to compute the speed 
+% and angle with which the Sphero will be commanded to move.
+%
+%% Prerequisites
+% It is helpful to complete the <matlab:showdemo('sphero_getting_started') 
+% Getting Started with Sphero Connectivity Package> example.
+%
+%% Create a Sphero object (if it does not exist)
+
+if ~exist('sph','var'),
+    sph = sphero(); % Create a Sphero object
+end
+
+% make sure the object is connected
+connect(sph);
+
+% ping it
+result = ping(sph);
+
+% interrupt the example if ping was not successful
+if ~result, 
+    disp('Example aborted due to unsuccessful ping');
+    return, 
+end
+
+%%
+% The Bluetooth name of the device that you would like to connect to can be 
+% specified when using the *sphero* command, instead of searching for all
+% the paired devices.
+%%
+% Turn on handshaking in order to make sure that the Sphero is able to 
+% receive and respond to messages. Also, calibrate the orientation of the
+% Sphero so that it points in the desired direction, before we start moving
+% it around.
+sph.Handshake = 1;  %Turn on handshaking 
+sph.BackLEDBrightness = 255;
+calibrate(sph, 0); %Calibrate the orientation of the sphero. Use this 
+% command with different values of the angle in order to orient the Sphero in the desired direction.
+
+%% Specify the points to be traversed
+% Specification of the x and y coordinates of the points to be traversed on
+% the plane (in cm):
+despoints = [0 100;
+            -50 100;
+            50 75;
+            -50 25;
+            50 0;
+            0 0];
+ 
+numpoints = size(despoints, 1);
+
+%Read the current location of the Sphero
+[xstart, ystart, ~, ~, groundspeed] = readLocator(sph);
+
+% Plot the points to be traversed
+labels = cellstr(num2str([1:numpoints]') );  % labels correspond to the order in which the points are to be traversed
+figure(1)
+clf
+plot(despoints(:, 1), despoints(:,2), 'b+')
+text(despoints(:,1), despoints(:,2), labels, 'VerticalAlignment','bottom', ...
+                             'HorizontalAlignment','right')
+title('Points to be traversed');
+axis([-100 100 -50 150])
+hold on
+plot(double(xstart), double(ystart), 'ko');
+hold off
+
+%%
+% Specify the other parameters that are used in controlling the Sphero:
+
+tfinal = 30; % Time limit on the motion of the Sphero
+stopRadius = 3;  % Radius of the circle around the point, within which the Sphero should try to stop 
+maxspeed = 150; % Max speed for saturation 
+minspeed = -150;  % Min speed for saturation
+restartspeed = 50; % Minimum speed required to restart the Sphero, if it 
+% stops at a point where it is not supposed to stop. This minumum speed is
+% required to get the Sphero to start moving again, due to its inertia
+
+% Controller gains
+Kp = 1; 
+Ki = 0.1; 
+Kd = 0.1;
+
+% Initialize the variables to store the x, y coordinates of the points that
+% the Sphero actually goes through, and the distance from the desired point 
+xlog = []; 
+ylog = []; 
+distlog = [];
+
+%% Closed loop control of Sphero to traverse specified points
+% Initialize the variables for traversing the points:
+idx = 1;
+xcur = double(xstart);
+ycur = double(ystart);
+t0 = cputime;
+
+%%
+% Run the while loop until the timout occurs, or when all points have been
+% traversed. The *control_sphero* function implements the PID
+% Controller, which outputs the desired speed of the robot, based on the
+% distance between the current point and the next point that has to be
+% reached.
+
+while(cputime-t0<tfinal) && idx<=numpoints
+    xdes = despoints(idx, 1);
+    ydes = despoints(idx, 2);
+    
+    % Angle and distance calculation
+    % Angle by which the Sphero should be rotated and the distance that it 
+    % should move by in order to reach desired position. 
+    % The angle is measured with respect to the Sphero's y-axis 
+    % (or orientation of sphero)
+    angle = rad2deg(atan2(double(xdes-xcur), double(ydes-ycur)));
+    dist = sqrt((xdes-double(xcur)).^2 + (ydes-double(ycur)).^2); %Distance or the error   
+       
+    %Clear the persistent variables in the function, from the previous run.
+    %If these variables are not cleared, the error values from the previous
+    %run will be used, which can cause issues
+    control_sphero(dist, double(groundspeed), Kp, Ki, Kd, stopRadius, maxspeed, minspeed, restartspeed, 1);
+    
+    while dist>stopRadius
+        speed = control_sphero(dist, double(groundspeed), Kp, Ki, Kd, stopRadius, maxspeed, minspeed, restartspeed, 0);
+
+        % Move the robot in the desired direction (specified by the 'angle'
+        % with regards to the y-orientation of the sphero)
+        result = roll(sph, speed, angle);
+
+        % Read the current position and speed of the robot
+        [xcur, ycur,~, ~, groundspeed] = readLocator(sph);
+        
+        % Angle and distance calculation
+        angle = rad2deg(atan2(double(xdes-xcur), double(ydes-ycur)));
+        dist = sqrt((xdes-double(xcur)).^2 + (ydes-double(ycur)).^2); %Distance or the error
+
+        xlog(end+1) = xcur;
+        ylog(end+1) = ycur;
+        distlog(end+1) = dist;
+    end
+    %Increment the index to the next point that has to be traversed
+    idx = idx+1;
+end
+
+brake(sph);
+
+%% Plot the result
+hold on
+plot(xlog, ylog, 'rx');
+hold off
+legend('Desired points for traversal', 'Starting location', 'Motion of Sphero')
+
+figure(2)
+plot(distlog)
+title('Error between the position of Sphero and desired point')
+
+%%
+% 
+% <<sphero_motion_control_fig1.png>>
+%
+% <<sphero_motion_control_fig2.png>>
+%
+%% Disconnect the Sphero
+disconnect(sph);
+%Clear the persistent variables in the control function
+control_sphero(dist, groundspeed, Kp, Ki, Kd, stopRadius, maxspeed, minspeed, restartspeed, 1);
+
+%% Summary
+% This example introduced an application example where the motion of the
+% Sphero is controlled based on the onboard readings, in order to trasverse
+% certain points on the plane.
+%% More About
+% <matlab:doc('control_sphero') Controller for Sphero motion>
+%% See Also
+% <matlab:showdemo('sphero_examples') Sphero Connectivity Package Examples>
+
+%%
+% Copyright 2015, The MathWorks, Inc.
+##### SOURCE END #####
+--></body></html>
