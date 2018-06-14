@@ -2,16 +2,16 @@
 The Sphero MATLAB platform is a platform developed at the University of Texas at Dallas (UTD). The sphero_matlab package, which relies on the MATLAB [Sphero Connectivity Package](https://www.mathworks.com/matlabcentral/fileexchange/52481-sphero-connectivity-package), provides a platform to control a group of Sphero robots, in a centralized or distributed manner, and monitoring the robots through a webcam. The package is used to collect experimental results for novel control algorithms.
 
 ## Outline of sphero_matlab README Documentation
-[About the Spheros](#about-the-spheros)
-[Requirements](#requirements)
-[Package Organization](#package-organization)
-[Package Operation Outline](#package-operation-outline)
-[Platform Capabilities](#platform-capabilities)
-[Getting Started](#getting-started)
-[Useful Resources](#useful-resources)
-[Potential Problems](#potential-problems)
-[Acknowledgements](#acknowledgments)
-[Appendix](#appendix)
+* [About the Spheros](#about-the-spheros)
+* [Requirements](#requirements)
+* [Package Organization](#package-organization)
+* [Package Operation Outline](#package-operation-outline)
+* [Platform Capabilities](#platform-capabilities)
+* [Getting Started](#getting-started)
+* [Useful Resources](#useful-resources)
+* [Potential Problems](#potential-problems)
+* [Acknowledgements](#acknowledgments)
+* [Appendix](#appendix)
 
 ## About the Spheros
 The Sphero robot is small sized spherical robot. It has two motors that roll on the internal walls of its plastic waterproof shell allowing the robot to move. When the robot starts, its current heading, is set to be its reference heading. Thus, every time the robot starts it has a new reference angle. The robots use Bluetooth technology for their wireless communications.
