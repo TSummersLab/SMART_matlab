@@ -1,6 +1,18 @@
 # Sphero MATLAB
 The Sphero MATLAB platform is a platform developed at the University of Texas at Dallas (UTD). The sphero_matlab package, which relies on the MATLAB [Sphero Connectivity Package](https://www.mathworks.com/matlabcentral/fileexchange/52481-sphero-connectivity-package), provides a platform to control a group of Sphero robots, in a centralized or distributed manner, and monitoring the robots through a webcam. The package is used to collect experimental results for novel control algorithms.
 
+## Outline of sphero_matlab README Documentation
+[About the Spheros](#about-the-spheros)
+[Requirements](#requirements)
+[Package Organization](#package-organization)
+[Package Operation Outline](#package-operation-outline)
+[Platform Capabilities](#platform-capabilities)
+[Getting Started](#getting-started)
+[Useful Resources](#useful-resources)
+[Potential Problems](#potential-problems)
+[Acknowledgements](#acknowledgments)
+[Appendix](#appendix)
+
 ## About the Spheros
 The Sphero robot is small sized spherical robot. It has two motors that roll on the internal walls of its plastic waterproof shell allowing the robot to move. When the robot starts, its current heading, is set to be its reference heading. Thus, every time the robot starts it has a new reference angle. The robots use Bluetooth technology for their wireless communications.
 
@@ -87,6 +99,8 @@ The number of Spheros controlled can be increased by using multiple computers co
 The platform uses a webcam per computer to locate the Spheros. While this works well, it does restrict the operation region of the Spheros to the field of view of the camera or the intersection of the field of views of the cameras in case multiple cameras were used.
 
 The platform uses color based detection to locate the robots. This allows the platform to separate Spheros by color in case multiple teams are formed to test control algorithms related to game theory. However, color based detection is prone to detecting false positives. Thus, the field of view of each camera must be free of interference. This also forces the background to be dark. Color based detection also limits the separation between robots. When robots of the same colors intersect, they individual robots can no longer be identified.
+
+Currently the package can only use a resolution of 640x480. This value is hard coded in multiple places in the package. This means that the camera calibration should be done in 640x480 and the camera aspect ratio must be 4:3 (even if the resolution is not 640x480, the image is resized). If the aspect ratio is not 4:3, the image, and thus the reconstructed data, will become distorted.
 
 ## Getting Started
 
@@ -346,7 +360,9 @@ cam.Resolution = '640x480';
 cam.Focus = 0;  
 cam.Exposure = -11;
 ```
-* Note that it is not advisable to modify the camera resolution through the downloaded application. When calibrating the camera, the user is forced to used the full resolution of the camera, thus all other operations must use the full resolution of the camera to get a correct mapping of the image points.
+* Note that you should not modify the camera zoom through the downloaded application.
+* Regarding the resolution of the webcam, the Logitch software does not allow users to change the aspect ratio. The image is 1920x1080, which results in a 16:9 image, which is wider than the required 4:3 image. When resizing the images in MATLAB, the image becomes distorted. When running formation control, this results in shapes looking imperfect. However, the package continues to operate. We recommend using a Windows computer instead.
+* If a computer running macOS/OS X must be used, we recommend calibrating the camera on a Windows machine (to set the resolution to 640x480) then importing the resulting `.m` file.
 
 ### Camera Calibration Using MATLAB App
 To calibrate the camera, follow these steps:

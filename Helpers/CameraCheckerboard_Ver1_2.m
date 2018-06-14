@@ -15,7 +15,7 @@ cam = webcam(deviceId); % Connect to the webcam.
 
 % Set camera properties
 cam.Resolution = '640x480';
-cam.Focus = 0;  
+cam.Focus = 0;
 cam.Exposure = -11;
 
 % Grab a frame
@@ -61,5 +61,3 @@ R = R.';
 CameraParam.Rot  = R;
 CameraParam.Tran = T;
 CameraParam.Norm = N;
-
-
