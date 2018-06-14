@@ -1,5 +1,5 @@
-# Sphero Matlab
-The Sphero Matlab platform is developed at the University of Texas at Dallas (UTD). The sphero_matlab package, which relies on the Matlab [Sphero Connectivity Package](https://www.mathworks.com/matlabcentral/fileexchange/52481-sphero-connectivity-package), provides a platform to control a group of Sphero robots, in a centralized or distributed manner, and monitoring the robots through a webcam. The package is used to collect experimental results for novel control algorithms.
+# Sphero MATLAB
+The Sphero MATLAB platform is a platform developed at the University of Texas at Dallas (UTD). The sphero_matlab package, which relies on the MATLAB [Sphero Connectivity Package](https://www.mathworks.com/matlabcentral/fileexchange/52481-sphero-connectivity-package), provides a platform to control a group of Sphero robots, in a centralized or distributed manner, and monitoring the robots through a webcam. The package is used to collect experimental results for novel control algorithms.
 
 ## About the Spheros
 The Sphero robot is small sized spherical robot. It has two motors that roll on the internal walls of its plastic waterproof shell allowing the robot to move. When the robot starts, its current heading, is set to be its reference heading. Thus, every time the robot starts it has a new reference angle. The robots use Bluetooth technology for their wireless communications.
@@ -12,8 +12,8 @@ The package requirements can be divided into three categories:
   * macOS:
     * With some modifications, the platform can run on computers running MacOS. The package was used on OS X 10.11 (El Capitan) and macOS 10.12 (Sierra) and 10.13 (High Sierra). The required changes are explained in the [Changes for Mac](#changes-for-mac) section in the [Appendix](#appendix).
 * Software:
-  * Matlab:
-    * The package has been tested with Matlab R2017a and R2017b. The additional required Toolboxes are:
+  * MATLAB:
+    * The package has been tested with MATLAB R2017a and R2017b. The additional required Toolboxes are:
       * Computer Vision System Toolbox
       * Image Acquisition Toolbox
       * Image Processing Toolbox
@@ -25,13 +25,12 @@ The package requirements can be divided into three categories:
     * The package uses CVX as its convex optimization tool. CVX is not provided in this repository, but should be downloaded and added to the root of the repository. See the [Getting Started](#getting-started) section for more details.
 * Hardware:
   * Computer(s):
-    * The package requires at least one computer to run. It has been tested with up to three computers running the same experiment session together. Tested computers include:
-      * Dell (Kaveh_work) **(FILL IN DETAILS)**
-      * Dell (Kaveh_) **(FILL IN DETAILS)**
-      * Dell (Willy) **(FILL IN DETAILS)**
-      * Dell Latitude E7470 with an Intel Core i7-6600U processor (Windows 10)
-      * Macbook Pro (Mid 2014) with an Intel Core i7-4870HQ processor (macOS 10.13)
-      * Microsoft Surface **(FILL IN DETAILS)** (Windows 10)
+    * The package requires at least one computer to run. It has been tested with up to three computers running the same experiment session together. We have tested the platform on multiple computers:
+      * Workstation laptops with fourth generation Intel Core i7 running Windows 7 and Windows 10
+      * Business-class laptop with sixth generation Intel Core i7 running Windows 10
+      * Microsoft Surface Tablet running Windows 10
+      * Macbook Pro with fourth generation Intel Core i7
+    * The package should work if all the MATLAB toolboxes are available on the platform.
   * Camera:
     * The platform uses a camera to locate the robots. The platform was tested with the following cameras:
       * Logitech C920 Webcam
@@ -40,11 +39,11 @@ The package requirements can be divided into three categories:
   * Calibration board:
     * To calibrate the camera a non-square checkerboard patter is required
   * Sphero robots:
-    * The platform uses the Matlab Sphero Connectivity Package to communicate with the Sphero robots. However, it cannot support Spheros with BLE (Bluetooth Low Energy) technology. Thus, the platform can only support the following robots:
+    * The platform uses the MATLAB Sphero Connectivity Package to communicate with the Sphero robots. However, it cannot support Spheros with BLE (Bluetooth Low Energy) technology. Thus, the platform can only support the following robots:
       * Sphero SPRK robots (discontinued)
       * Sphero 2.0 robots (used to test this package)
   * Bluetooth dongle:
-    * If the computer is not equipped with a Bluetooth module, a Bluetooth dongle is required. Older machines may also benefit from a new and faster Bluetooth dongle. **provide link**
+    * If the computer is not equipped with a Bluetooth module, a Bluetooth dongle is required. Older machines may also benefit from a new and faster Bluetooth dongle. An example is the [SMK Nano USB Dongle with LE+EDR](https://www.frys.com/product/7299223?site=sr:SEARCH:MAIN_RSLT_PG)
   * Black cloth:
     * The platform uses color based detection to recognize the Spheros. It is preferred to have a black or dark background to avoid false positives. We chose to place a piece of black cloth in the camera's field of view to control the environment background.
 
@@ -56,14 +55,14 @@ The folders of the repository are:
   * While the folder does not come with the repository, it will be added in the [Getting Started](#getting-started) section.
   * Contains the files necessary to use the CVX tool
 * EKF
-  * Contains Matlab scripts for the extended Kalman filter
+  * Contains MATLAB scripts for the extended Kalman filter
 * Formation Control
-  * Contains Matlab scripts and functions to determine the control signal when using a distributed formation control algorithm.
+  * Contains MATLAB scripts and functions to determine the control signal when using a distributed formation control algorithm.
   * This file is not necessary for the package. It is one application that uses the package and serves as an example to show how the package can be used.
 * Helpers
-  * The folder contains the Matlab functions and scripts used by the scripts that runs the package.
+  * The folder contains the MATLAB functions and scripts used by the scripts that runs the package.
 * Sphero
-  * Contains the Matlab Sphero Connectivity Package.
+  * Contains the MATLAB Sphero Connectivity Package.
   * Using a newer version of this package may be possible, but it has not been tested.
 The main script of the package, and the one that runs it, is `Main_Ver_1_3.m`.
 
@@ -81,7 +80,7 @@ When the package runs on a computer, it primarily operates as follows:
 More details will be explained in the [Getting Started](#getting-started) section.
 
 ## Platform Capabilities
-The platform is capable of controlling multiple robots at the same time. While each computer can only connect to a maximum of 7 robots because of Bluetooth limitations, we have observed that 6 robots is the practical limit and 4 robots is ideal for more powerful computers. The number of robots, the time it takes for the Sphero Connectivity Package to connect to them, and the stability of the connection are all dependent on the Bluetooth module used and the computer's capabilities. For example, a Microsoft Surface tablet can connect reliably to two robots, the Dell Latitude E7470 computer could handle 4 Spheros normally. Machines with older hardware performed better with a USB Bluetooth dongle.
+The platform is capable of controlling multiple robots at the same time. While each computer can only connect to a maximum of 7 robots because of Bluetooth limitations, we have observed that 6 robots is the practical limit and 4 robots is ideal for more powerful computers. The number of robots, the time it takes for the Sphero Connectivity Package to connect to them, and the stability of the connection are all dependent on the Bluetooth module used and the computer's capabilities. For example, a Microsoft Surface tablet can connect reliably to two robots, a Business-class laptop may be able to support 4 Spheros normally. Machines with older hardware performed better with a newer USB Bluetooth dongle.
 
 The number of Spheros controlled can be increased by using multiple computers connected to the same WiFi Network. The computers would only communicate once to sync the Sphero tags. From thereon, the computers can run independently. Thus, in addition to centralized control algorithm, the platform can be used to test distributed control algorithms.
 
@@ -95,14 +94,14 @@ The platform uses color based detection to locate the robots. This allows the pl
 We will make the following assumptions when explaining how to use the package:
 * Compatible Sphero robots are obtained and fully charged. We will refer to the compatible robots as Spheros (regardless of the model).
 * A compatible computer is obtained and is equipped with a Bluetooth module. We will assume that only one computer is used, but we will indicate the necessary changes to use multiple computers. We will also assume that the computer is running Windows OS, but we will indicate the necessary changes when using computers running macOS.
-* A Matlab-compatible camera is obtained with a tripod or other structure that provides elevation.
+* A MATLAB-compatible camera is obtained with a tripod or other structure that provides elevation.
 * A large and empty area with a dark background is available to run the package. The size of the area may vary based on the camera placement, but a minimum area of (6' x 6') or (2m x 2m) is recommended.
 
 ### Preparing the Environment
 Before running the package, you should setup the physical environment in which the experiments will be performed. Start by finding a large space where you can run the experiments. The space should have a black background and preferably a flat carpet-like surface. Tile floors work or stamped concrete, but they might affect the performance of the package if they were reflective and/or not flat. Gaps between tiles are considered obstacles for the Spheros.
 Next, setup your camera. Try to center the camera so that it overshadows the Spheros' operation area. Try to elevate the camera and point it vertically down as much as possible. This will improve the platform's image processing. In our experiments, we placed the camera at a hight of about 6.5' or 2 meters. The camera made an angle of about 30 degrees with the line pointing vertically downward. These values serve an informative role only. They need not be followed exactly. We will continue the camera setup step in the [Using the Package](#using-the-package) section.
 
-You should also pair the Spheros to your computer. Trying to connect to unpaired Spheros may result in Matlab crashing. You can pair the Spheros by following these steps:
+You should also pair the Spheros to your computer. Trying to connect to unpaired Spheros may result in MATLAB crashing. You can pair the Spheros by following these steps:
 1. Double tap the Sphero to wake it up. It should blink with its three identifying colors. The color sequence represents the Sphero's name; i.e. if it blink red-green-red then its name is Sphero-RGR. Note that the color sequence is not unique. If you have multiple robots with the same name, you cannot connect to them using this package.
 2. Open your Bluetooth preferences or management tool on your device and refresh the list of available devices.
 3. Locate your Sphero in the devices list and pair it with your computer. The Sphero might show up as an audio device.
@@ -136,9 +135,9 @@ Now it is time to prepare the package for use on your machine. Follow these step
   ```
   Here, `path` refers to the directory where you want to store and run the package. i.e. `path` =  `~/Documents/MATLAB`
   * Alternatively, you can go to the [Github repository](https://github.com/The-SS/sphero_matlab) and choose `Download Zip` under the `Clone or Download` button. You can then unzip the downloaded folder and place it wherever you want. We will call the insallation location `path`
-  * Make sure you know where you store the package. The directory is required by Matlab.
-2. Get the CVX Matlab package
-  * The CVX Matlab package is required to run the sphero_matlab package. However, it is not provided because of its license.
+  * Make sure you know where you store the package. The directory is required by MATLAB.
+2. Get the CVX MATLAB package
+  * The CVX MATLAB package is required to run the sphero_matlab package. However, it is not provided because of its license.
   * To get the package go to this link [http://cvxr.com/cvx/download/](http://cvxr.com/cvx/download/) and download the `.zip` distribution that suits your machine under "Standard bundles, including Gurobi and/or MOSEK".
   * Copy the folder labeled `cvx` to the sphero_matlab package. Your directory in `path` should look like this:
   ```
@@ -157,14 +156,14 @@ Now it is time to prepare the package for use on your machine. Follow these step
   ```
   Note: The name of the file (CVX) is not case sensitive; cvx and CVX are the same.
 3. Install the CVX Package
-  * Open a Matlab session and navigate to the directory where sphero_matlab is placed. The "Current Folder" window should show the files inside sphero_matlab only.
+  * Open a MATLAB session and navigate to the directory where sphero_matlab is placed. The "Current Folder" window should show the files inside sphero_matlab only.
   * In the Current Folder window, click on the arrow next to CVX to show the files inside of it.
-  * Double click on `cvx_setup.m` in the cvx file. It should open up in the Matlab Editor
+  * Double click on `cvx_setup.m` in the cvx file. It should open up in the MATLAB Editor
   * Hit the green run button to run the script. This will install CVX.
 4. Edit `Main_Ver1_3.m`
   * `Main_Ver1_3` is the script that runs the whole package. It is divided into different sections that must be executed sequentially. We will explain each section, its role, and the required changes.
     1. Adding paths
-      * The fist section adds the Matlab paths for the project folders.
+      * The fist section adds the MATLAB paths for the project folders.
       * **Run this section without changes.**
     2. Preallocate parameters
       * This section initializes and preallocates variables related to the Spheros and the package's execution. Here are the changes that must be made:
@@ -187,7 +186,7 @@ Now it is time to prepare the package for use on your machine. Follow these step
       * The functions are as follows:
           * camList = webcamlist
             * Displays a list of all available webcams.
-            * If your webcam is not detected, make sure it is compatible with the Matlab webcam package.
+            * If your webcam is not detected, make sure it is compatible with the MATLAB webcam package.
             * The order of webcams in this list may change if the port the camera is connected to changes. It is recommended that this line is run the first time a webcam is connected.
           * cam = webcam(1)
             * Creates an object for the webcam.
@@ -212,7 +211,7 @@ Now it is time to prepare the package for use on your machine. Follow these step
       * **This section must be executed regardless of whether a movie is to be recorded or not.** It contains variables that must be initialized at least once.
     6. Initialize camera and detect checkerboard
       * Initializes the camera parameters and detects the checkerboard to find the extrinsic matrix which allows a single camera to reconstruct the world position of the Spheros from the pixel value.
-      * Before running this section you need to have the camera calibrated and generate a `.mat` file. This camera calibration must be done once per camera. The calibration data can be stored for future use. To calibrate the camera follow these steps in the [Camera Calibration Using Matlab App](#camera-calibration-using-matlab-app) section in the [Appendix](#appendix).
+      * Before running this section you need to have the camera calibrated and generate a `.mat` file. This camera calibration must be done once per camera. The calibration data can be stored for future use. To calibrate the camera follow these steps in the [Camera Calibration Using MATLAB App](#camera-calibration-using-matlab-app) section in the [Appendix](#appendix).
       * Set the `CameraParam.squareSize` to the value used during the calibration.
       * Set the `CameraParam.paramFile` to the name it was given when the camera parameters were exported. i.e. 'CameraParams_Logitech_640x480_Gans.mat'.
       * Set the `CameraParam.camID` to the index obtained during the "Test Webcam" section.
@@ -283,10 +282,10 @@ Now it is time to prepare the package for use on your machine. Follow these step
 Once the package is setup and configured, it is easier to use. Below is a summary of the steps required to run the package:
 1. Adding paths
   * No changes necessary.
-  * Run the section once when a new session of Matlab starts. Make sure you are in the sphero_matlab directory.
+  * Run the section once when a new session of MATLAB starts. Make sure you are in the sphero_matlab directory.
 2. Preallocate parameters
   * Changes may be made.
-  * Run the section once when a new session of Matlab starts. Run again if changes to parameters in this section are made.
+  * Run the section once when a new session of MATLAB starts. Run again if changes to parameters in this section are made.
 3. Test webcam
   * Changes may be made.
   * Run individual lines to check the webcam ID or to fix the camera's field of view.
@@ -295,7 +294,7 @@ Once the package is setup and configured, it is easier to use. Below is a summar
   * Run the section once to connect to the Spheros.
 5. Record movie
   * Changes may be made.
-  * Run the section once when a new session of Matlab starts. Run again if changes to parameters in this section are made (such as changing the name of the video).
+  * Run the section once when a new session of MATLAB starts. Run again if changes to parameters in this section are made (such as changing the name of the video).
 6. Initialize camera and detect checkerboard
   * Changes may be made.
   * Run the section only when the camera is moved.
@@ -304,10 +303,10 @@ Once the package is setup and configured, it is easier to use. Below is a summar
   * Run the section when the previous section is executed. You may also run it to update the initial heading estimate.
 8. Setup TCPIP info
   * Changes may be made.
-  * Run the section once when a new session of Matlab starts. Run again if changes to parameters in this section are made.
+  * Run the section once when a new session of MATLAB starts. Run again if changes to parameters in this section are made.
 9. Formation control gains
   * No changes necessary.
-  * Run the section once when a new session of Matlab starts. Run again if changes to the Spheros are made.
+  * Run the section once when a new session of MATLAB starts. Run again if changes to the Spheros are made.
 10. Controlling Spheros
   * Changes may be made. Replace function by other test functions.
   * Run the section every time an experiment is to be performed.
@@ -327,10 +326,14 @@ Once the package is setup and configured, it is easier to use. Below is a summar
 
 ## Acknowledgements
 
+The package was primarily developed by: [Kaveh Fathian](https://github.com/kavehfathian) and [Sleiman Safaoui](https://github.com/The-SS) at the University of Texas at Dallas.
+
+We would like to thank Giampiero Campa and Danvir Sethi at Mathworks for providing us with the MATLAB Sphero Connectivity Package for development.
+
 ## Appendix
 
 ### Changes for Mac
-Most of the package is compatible with Matlab for MacOS. The only exception is within the MATLAB Support Packages for USB Webcams. While the Windows version of the toolbox enables the user to modify camera parameters extensively, including the resolution, exposure, contrast, and other parameters, the MacOS/OS X version is more limited. Using the Logitech C920 webcam, users cannot change any of these parameters. To use the package on a computer running MacOS/OS X make the following changes:
+Most of the package is compatible with MATLAB for MacOS. The only exception is within the MATLAB Support Packages for USB Webcams. While the Windows version of the toolbox enables the user to modify camera parameters extensively, including the resolution, exposure, contrast, and other parameters, the MacOS/OS X version is more limited. Using the Logitech C920 webcam, users cannot change any of these parameters. To use the package on a computer running MacOS/OS X make the following changes:
 * Download an application to control camera parameters
   * For the Logitech C920, you may choose to download the Logitech Gaming Software from the [Logitech website](http://support.logitech.com/en_us/product/hd-pro-webcam-c920/downloads#macPnlBar).
 * Use the application to modify camera parameters to make the image darker
@@ -345,7 +348,7 @@ cam.Exposure = -11;
 ```
 * Note that it is not advisable to modify the camera resolution through the downloaded application. When calibrating the camera, the user is forced to used the full resolution of the camera, thus all other operations must use the full resolution of the camera to get a correct mapping of the image points.
 
-### Camera Calibration Using Matlab App
+### Camera Calibration Using MATLAB App
 To calibrate the camera, follow these steps:
 1. In the `APPS` tab, start the `Camera Calibrator` application.
 2. Under `Add Images` from the top menu, select `From Camera`.
