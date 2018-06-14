@@ -10,7 +10,7 @@ The package requirements can be divided into three categories:
   * Windows:
     * The platform has been tested with Windows 7 and Windows 10. The package runs normally on either operating system
   * macOS:
-    * With some modifications, the platform can run on computers running MacOS. The package was used on OS X 10.11 (El Capitan) and macOS 10.12 (Sierra) and 10.13 (High Sierra). The required changes are explained in the [Getting Started](#getting-started) section.
+    * With some modifications, the platform can run on computers running MacOS. The package was used on OS X 10.11 (El Capitan) and macOS 10.12 (Sierra) and 10.13 (High Sierra). The required changes are explained in the [Changes for Mac](#changes-for-mac) section in the [Appendix](#appendix).
 * Software:
   * Matlab:
     * The package has been tested with Matlab R2017a and R2017b. The additional required Toolboxes are:
@@ -20,6 +20,7 @@ The package requirements can be divided into three categories:
       * Instrument Control Toolbox
       * MATLAB Support Packages for USB Webcams
       * **(check if there are any more)**
+    * For more information on adding toolboxes visit the Mathworks [Manage Your Add-Ons](https://www.mathworks.com/help/matlab/matlab_env/manage-your-add-ons.html) webpage
   * CVX:
     * The package uses CVX as its convex optimization tool. CVX is not provided in this repository, but should be downloaded and added to the root of the repository. See the [Getting Started](#getting-started) section for more details.
 * Hardware:
@@ -69,8 +70,8 @@ The main script of the package, and the one that runs it, is `Main_Ver_1_3.m`.
 ## Package Operation Outline
 When the package runs on a computer, it primarily operates as follows:
 1. Connecting to the Spheros
-2. Calibrating the Camera
-3. Estimating the reference heading of the Spheros
+2. Calibrating the camera
+3. Estimating the initial heading of the Spheros (orientation of the body frame relative to the world frame)
 4. Communicating with other computers and tagging the Spheros
 5. Controlling the Spheros
   - tagging them
@@ -327,6 +328,22 @@ Once the package is setup and configured, it is easier to use. Below is a summar
 ## Acknowledgements
 
 ## Appendix
+
+### Changes for Mac
+Most of the package is compatible with Matlab for MacOS. The only exception is within the MATLAB Support Packages for USB Webcams. While the Windows version of the toolbox enables the user to modify camera parameters extensively, including the resolution, exposure, contrast, and other parameters, the MacOS/OS X version is more limited. Using the Logitech C920 webcam, users cannot change any of these parameters. To use the package on a computer running MacOS/OS X make the following changes:
+* Download an application to control camera parameters
+  * For the Logitech C920, you may choose to download the Logitech Gaming Software from the [Logitech website](http://support.logitech.com/en_us/product/hd-pro-webcam-c920/downloads#macPnlBar).
+* Use the application to modify camera parameters to make the image darker
+  * Use the sliders to change the exposure, aperture, and other parameters to dim the image. When the image is darker, less objects are in the field of view which enhances the detection. We suggest changing the parameters until the Spheros in the field of view are the only objects visible.
+  * Note that if the image becomes too dark, the checkerboard detection section might fail to detect the checkerboard. It is advisable to make these camera parameter modifications after the checkerboard detection section.
+* Modify the `CameraParam` object by modifying the `CameraCheckerboard_Ver1_2` function in the `Initialize camera and detect checkerboard`. Comment out the following section:
+```
+% Set camera properties
+cam.Resolution = '640x480';
+cam.Focus = 0;  
+cam.Exposure = -11;
+```
+* Note that it is not advisable to modify the camera resolution through the downloaded application. When calibrating the camera, the user is forced to used the full resolution of the camera, thus all other operations must use the full resolution of the camera to get a correct mapping of the image points.
 
 ### Camera Calibration Using Matlab App
 To calibrate the camera, follow these steps:
