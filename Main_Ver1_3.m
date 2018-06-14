@@ -17,16 +17,16 @@ addpath(genpath('Calibration Images'));
 
 SphNames = { 'RPY', 'YWR', 'WWP'};                % Name of spheros
 % 'YWB', 'WWP', 'WYP' ,'OWY', 'OGY', 'YWR', 'WOR', 'OYR', 'ROY', 'RPY'
-CameraParam.col = [0, 255, 255]; % Detection color for followers (red)
+CameraParam.col = [0, 255, 255]; % Detection color for followers (cyan)
 SpheroState.SphNames = SphNames;
 
 numItr             = 5000;         % Number of iterations to keep the data (must be > 1)
 SpheroState.numItr = numItr;
-SpheroState.numRob = 9;          % Total number of robots
+SpheroState.numRob = 9;          % Total number of robots connected to all computers
 
 %% Test Webcam
 
-% camList = webcamlist;  % Identify Available Webcams
+camList = webcamlist;  % Identify Available Webcams
 if isfield(CameraParam,'cam')
     delete(CameraParam.cam)
     CameraParam = rmfield(CameraParam,'cam');
@@ -34,7 +34,7 @@ end
 cam = webcam(1);         % Connect to the webcam
 preview(cam);            % Preview Video Stream
 
-clear cam                % Release webcam 
+clear cam                % Release webcam
 
 
 %% Connect to Spheros
@@ -73,16 +73,18 @@ CameraParam = CameraCheckerboard_Ver1_2(CameraParam);
 
 clc
 
-SpheroState.Theta0 = SpheroTheta0_Ver1_5(SpheroState, CameraParam);     
+SpheroState.Theta0 = SpheroTheta0_Ver1_5(SpheroState, CameraParam);
+
+
+%% Setup TCPIP info
+
+SpheroTCPIP.server = 0; % 1 <--> server computer (or only one computer), 0 <--> client computer
+SpheroTCPIP.ip = ["192.168.1.8"]; % of server or clients
+% SpheroTCPIP.ip = []; % if only one computer is used
+SpheroTCPIP.gains = []; % update when calculated
 
 
 %% Formation Control Gains
-
-% Setup TCPIP info
-SpheroTCPIP.server = 0; % 1 <--> server computer, 0 <--> client computer
-SpheroTCPIP.ip = ["192.168.1.8"]; % of server or clients
-% SpheroTCPIP.ip = []; % of server or clients
-SpheroTCPIP.gains = []; % update when calculated
 
 % If server, calculate formation control gains
 if SpheroTCPIP.server == 1
@@ -91,7 +93,7 @@ if SpheroTCPIP.server == 1
 end
 
 
-%% Formation control
+%% Controlling Spheros
 
 clc
 close all
@@ -109,14 +111,14 @@ SpheroState = SpheroLoadParam_Ver1_4(SpheroState);
 
 itr = 0;
 while  true
-itr = itr + 1;    
+itr = itr + 1;
 
 j = 0;
 while j <= numRobLocal-1
-j = j + 1;    
+j = j + 1;
 iitr = (itr-1)*numRobLocal + j; % Current iteration number
 
-% Sphero detection, tracking, and 3D reconstruction  
+% Sphero detection, tracking, and 3D reconstruction
 disp('Image detection & tracking');
 SpheroState = SpheroTCPIPDetectionTracking_Ver1_2(iitr, SpheroState, CameraParam, SpheroTCPIP);
 
@@ -128,7 +130,7 @@ disp('Heading and speed estimation');
 SpheroState.Time(iitr)  =  cputime;
 SpheroState = SpheroHeadingSpeedEstim_Ver1_2(iitr, SpheroState);
 
-% Formation control  
+% Formation control
 disp('Calculating control');
 SpheroState = FormationControl_Ver3_2(iitr,itr,j, SpheroState, CameraParam);
 
@@ -171,7 +173,7 @@ for j = 1 : numRobLocal
     brake(SpheroState.Sph{j});     % Stop Spheros
     roll(SpheroState.Sph{j},0,0);  % Reset orientation
 end
-    
+
 %% Disconnect from Spheros
 
 SpheroDisconnect_Ver1_1(SpheroState);
@@ -193,62 +195,6 @@ SpheroDisconnect_Ver1_1(SpheroState);
 % fileName = strcat(Name, '_data');
 % fileType = '.mat';
 % fullAddress = strcat(address,fileName,fileType);
-% 
+%
 % % Save all variables
 % save(fullAddress)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
