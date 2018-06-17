@@ -8,8 +8,9 @@ The Sphero MATLAB platform is a platform developed at the University of Texas at
 * [Package Operation Outline](#package-operation-outline)
 * [Platform Capabilities](#platform-capabilities)
 * [Getting Started](#getting-started)
-* [Useful Resources](#useful-resources)
 * [Potential Problems](#potential-problems)
+* [Useful Tips](#useful-tips)
+* [Useful Resources](#useful-resources)
 * [Acknowledgements](#acknowledgments)
 * [Appendix](#appendix)
 
@@ -92,15 +93,15 @@ When the package runs on a computer, it primarily operates as follows:
 More details will be explained in the [Getting Started](#getting-started) section.
 
 ## Platform Capabilities
-The platform is capable of controlling multiple robots at the same time. While each computer can only connect to a maximum of 7 robots because of Bluetooth limitations, we have observed that 6 robots is the practical limit and 4 robots is ideal for more powerful computers. The number of robots, the time it takes for the Sphero Connectivity Package to connect to them, and the stability of the connection are all dependent on the Bluetooth module used and the computer's capabilities. For example, a Microsoft Surface tablet can connect reliably to two robots, a Business-class laptop may be able to support 4 Spheros normally. Machines with older hardware performed better with a newer USB Bluetooth dongle.
+The platform is capable of controlling multiple robots at the same time. While each computer can only connect to a maximum of 7 robots because of Bluetooth limitations, we have observed that 6 robots is the practical limit and 4 robots is the ideal number for many computers. The number of robots, the time it takes for the Sphero Connectivity Package to connect to them, and the stability of the connection are all dependent on the Bluetooth module used and the computer's capabilities. For example, a Microsoft Surface tablet can connect reliably to two robots, a Business-class laptop may be able to support 4 Spheros normally. Machines with older hardware performed better with a newer USB Bluetooth dongle.
 
-The number of Spheros controlled can be increased by using multiple computers connected to the same WiFi Network. The computers would only communicate once to sync the Sphero tags. From thereon, the computers can run independently. Thus, in addition to centralized control algorithm, the platform can be used to test distributed control algorithms.
+The number of Spheros controlled can be increased by using multiple computers connected to the same WiFi Network. The computers would only communicate once to sync the Sphero tags. Afterwards, the computers can run independently. Thus, the package can be used for both centralized and decentralized control algorithm.
 
 The platform uses a webcam per computer to locate the Spheros. While this works well, it does restrict the operation region of the Spheros to the field of view of the camera or the intersection of the field of views of the cameras in case multiple cameras were used.
 
-The platform uses color based detection to locate the robots. This allows the platform to separate Spheros by color in case multiple teams are formed to test control algorithms related to game theory. However, color based detection is prone to detecting false positives. Thus, the field of view of each camera must be free of interference. This also forces the background to be dark. Color based detection also limits the separation between robots. When robots of the same colors intersect, they individual robots can no longer be identified.
+The platform uses color based detection to locate the robots. This allows the platform to separate Spheros by color in case multiple teams are formed to test control algorithms related to game theory. However, color based detection is prone to detecting false positives. Thus, the field of view of each camera must be free of interference and the chosen colors should be easily distinguishable. This also forces the background to be dark. Color based detection also limits the separation between robots. When robots of the same colors intersect, they individual robots can no longer be identified.
 
-Currently the package can only use a resolution of 640x480. This value is hard coded in multiple places in the package. This means that the camera calibration should be done in 640x480 and the camera aspect ratio must be 4:3 (even if the resolution is not 640x480, the image is resized). If the aspect ratio is not 4:3, the image, and thus the reconstructed data, will become distorted.
+Currently the package can only use a resolution of 640x480. This value is hard coded in multiple places in the package. This means that the camera calibration should be done in 640x480 and the camera aspect ratio must be 4:3 (even if the resolution is not 640x480, the image is resized). If the aspect ratio is not 4:3, the image, and thus the reconstructed data, will become distorted. While the package will continue to operate, formations will become somewhat distorted.
 
 ## Getting Started
 
@@ -334,15 +335,51 @@ Once the package is setup and configured, it is easier to use. Below is a summar
   * No changes necessary.
   * Optional section. Run to save data in a `.mat` file.
 
-## Useful Resources
 
 ## Potential Problems
+
+### Problems with Connecting to the Spheros
+Spheros use Bluetooth technology to communicate. However, their connectivity with MATLAB is not perfect. If you have problems connect to the Spheros try the following:
+* Use a smartphone to connect to the Spheros using the official SpheroEDU application and check for firmware updates.
+* Restart the Spheros by place them back on the charging station, removing them, then double tapping them.
+* Reset the Spheros:
+  * Place the robot on its charging station.
+  * Press and hold the button on the station then lift the Sphero. This should turn off the Spheros (double tapping them should not start them).
+  * Release the button on the charging station.
+  * Place the Sphero back on the charging station and wait for it to turn on.
+* Restart your Bluetooth.
+* Restart MATLAB.
+* Restart your computer.
+* Try to use a USB Bluetooth dongle. Newer hardware might solve the problem.
+
+If while the Spheros are connected, one of them disconnects, run the `Disconnect from Spheros` section on the corresponding computer, then try connecting to the Spheros again. If that reconnecting fails, disconnect from the Spheros and restart them. If they fail to connect, try turning off and on you Bluetooth. If that does not work, restart MATLAB and/or your computer.
+
+### Terminating Package Sections
+When running any of the sections that communicate with the Spheros continuously, do not use control-C to stop MATLAB. If this happens while the Spheros are communicating with MATLAB, they will not respond anymore and you might have to restart MATLAB and the Spheros. To terminate such sections, either close any running graphs (the lack of a figure handle will terminate the section), or hide one of the Spheros from the camera field of view. No matter what happens, **do not stop MATLAB while communicating with a Sphero robot**.
+
+### Spheros not Converging to their Desired Goal
+If, while running the control code, the Spheros fail to converge to their desired goal position by either moving in a completely different direction or wobbling around their goal positions, try repeating the `Theta0 estimation` section. If that still does not resolve the problem, try reducing the gains by decreasing the values of `SpheroState.Param.Kp` or `SpheroState.Param.Ki` in `SpheroLoadParam_Ver1_4.m`.
+
+## Useful Tips
+Below are some objects and variables that might be of interest when debugging or improving performance:
+* SpheroState Object
+  * The SpheroState object contains all the parameters and variables that are related to the Spheros and their control. Some of the variables and parameters that might be of use include:
+    * PID gains for the Sphero controller
+      * The Spheros are controlled using a PID controller. The gains for the controller are the `SpheroState.Param.Kp`, `SpheroState.Param.Ki`, and `SpheroState.Param.Kd` parameters in the SpheroState object. The parameters are initialized in the `SpheroLoadParam_Ver1_4.m` file in the `Helpers` folder.
+    * Maximum speed of the Spheros
+      * The maximum speed of the Spheros is the speed at which the Spheros move when the controller saturates the input. If the Spheros are constatly moving at that speed, try reducing the PID gains. If the Spheros are too fast, try reducing the maximum speed, `SpheroState.Param.vMax`, in the `SpheroLoadParam_Ver1_4.m` file in the `Helpers` folder.
+* CameraParam Object
+  * The CameraParam object contains the parameters and variables related to the camera.
+* cam Object
+  * The cam object contains the MATLAB camera object. It contains all the camera parameters, some of which can be modified. It can be passed to function to view the camera field of view (`preview` function), and acquire an image (`snapshot` function), as well as other functions. For more information refer to the [following link](https://www.mathworks.com/help/supportpkg/usbwebcams/ug/acquire-images-from-webcams.html#bt6eebl).
+
+## Useful Resources
 
 ## Acknowledgements
 
 The package was primarily developed by: [Kaveh Fathian](https://github.com/kavehfathian) and [Sleiman Safaoui](https://github.com/The-SS) at the University of Texas at Dallas.
 
-We would like to thank Giampiero Campa and Danvir Sethi at Mathworks for providing us with the MATLAB Sphero Connectivity Package for development.
+We would like to thank Giampiero Campa and Danvir Sethi at Mathworks for providing us with the MATLAB Sphero Connectivity Package.
 
 ## Appendix
 
