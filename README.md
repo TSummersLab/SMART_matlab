@@ -63,15 +63,15 @@ The package requirements can be divided into three categories:
 ## Package Organization
 The folders of the repository are:
 * Calibration images
-  * Contains folders with the calibration data (.mat data file and pictures used for calibrating the camera)
+  * Contains folders with the calibration data (.mat data file and pictures used for calibrating the camera).
 * CVX
   * While the folder does not come with the repository, it will be added in the [Getting Started](#getting-started) section.
-  * Contains the files necessary to use the CVX tool
+  * Contains the files necessary to use the CVX tool.
 * EKF
-  * Contains MATLAB scripts for the extended Kalman filter
+  * Contains MATLAB scripts for the extended Kalman filter.
 * Formation Control
   * Contains MATLAB scripts and functions to determine the control signal when using a distributed formation control algorithm.
-  * This file is not necessary for the package. It is one application that uses the package and serves as an example to show how the package can be used.
+  * This file is not necessary for the package. It is one application that uses the package and serves as an example to show how the package. can be used.
 * Helpers
   * The folder contains the MATLAB functions and scripts used by the scripts that runs the package.
 * Sphero
@@ -170,6 +170,7 @@ Now it is time to prepare the package for use on your machine. Follow these step
           └── Sphero
   ```
   Note: The name of the file (CVX) is not case sensitive; cvx and CVX are the same.
+  Note: When using multiple computers, the CVX package needs to be on the server computer only; the clients do not require the package.
 3. Install the CVX Package
   * Open a MATLAB session and navigate to the directory where sphero_matlab is placed. The "Current Folder" window should show the files inside sphero_matlab only.
   * In the Current Folder window, click on the arrow next to CVX to show the files inside of it.
