@@ -142,7 +142,7 @@ for i = 1 : numRob % Agent
         thtC = atan2d(ctrl(2,i), ctrl(1,i));  
         
         % If control vector is inside a cone change its direction 
-        if any( and((thtC > coneAng(:,1)), (thtC < coneAng(:,2))) ) 
+        if any( and((thtC >= coneAng(:,1)), (thtC <= coneAng(:,2))) ) 
             
             angs = [-180 : 5 : 180];    % Possible motion directions to test  
             angsIdx = true(size(angs)); % Index of angles outside of the collision cones
