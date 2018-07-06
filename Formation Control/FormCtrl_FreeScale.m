@@ -2,8 +2,8 @@ function ctrl = FormCtrl_FreeScale(pos, numRob)
 
 persistent L
 
-if isempty(L)  % First run     
-    %% Desired formation 
+if isempty(L)  % First run
+    %% Desired formation
 
     % N-gon formation
     qAng = linspace(0,360,numRob+1); % desired locations of agents on the unit circle given in angle
@@ -29,9 +29,9 @@ if isempty(L)  % First run
     Adj = zeros(numRob,numRob,numGraphs);
     Adj(:,:,1) = ones(numRob) - eye(numRob);  % Complete graph
 
-    
+
     %% Rearrange tags (so that robots travel a shorter distance)
-    
+
     % Retagging indices for the desired formation
     idx = RearrangeTags(posDes, numRob);
 
@@ -41,23 +41,23 @@ if isempty(L)  % First run
     % Rearranging posDes according to idx and idxLoc
     posDes = posDes( : , idx);
     posDes = posDes( : , idxLoc);
-    
-    
-    %% Design control gains 
+
+
+    %% Design control gains
 
     % Find simultaniously stabilizing gains for all adjacency matrices
-    cvx_startup;
+    % cvx_startup; %% Commented out when moving to redistributable license
     [Ln, x, terms, Lbarn] = DynamicWeightDesign(Adj, posDes);
 
     LnR = L_C2R(Ln); % Real Laplacian matrix
     L = LnR ./ max(abs(LnR(:)));    % Normalized gain matrix
-    
-    
+
+
     %% Display the desired formation
     figure;
     hold on
     for j = 1 : numRob
-        scatter3(posDes(1,j),posDes(2,j),0,100,'fill');    
+        scatter3(posDes(1,j),posDes(2,j),0,100,'fill');
         text(posDes(1,j),posDes(2,j),0,['  ',num2str(j)], 'FontSize',16);
     end
     axis equal
@@ -67,159 +67,6 @@ if isempty(L)  % First run
 end
 
 
-q = pos(:) ./ max(abs(pos(:))); % Aggregate position vector (normalized)    
+q = pos(:) ./ max(abs(pos(:))); % Aggregate position vector (normalized)
 dq = L * q;                     % Control velocity vectors
 ctrl = reshape(dq,2,numRob);    % Reshape into matrix format
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

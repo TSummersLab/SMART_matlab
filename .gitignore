@@ -1,7 +1,7 @@
 # When pushing to git ignore the following
 
-#CVX file
-CVX/
+#CVX license file (if found)
+cvx/*.p
 
 # Recorded videos
 SavedData/
