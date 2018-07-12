@@ -82,7 +82,7 @@ The folders of the repository are:
 * Sphero
   * Contains the MATLAB Sphero Connectivity Package.
   * Using a newer version of this package may be possible, but it has not been tested.
-The main script of the package, and the one that runs it, is `Main_Ver_1_3.m`.
+The main script of the package, and the one that runs it, is `Main.m`.
 
 ## Package Operation Outline
 When the package runs on a computer, it primarily operates as follows:
@@ -165,8 +165,8 @@ Now it is time to prepare the package for use on your machine. Follow these step
   * Double click on `cvx_setup.m` in the cvx file. It should open up in the MATLAB Editor
   * Hit the green run button to run the script. This will install CVX.
   * If CVX cannot be installed, you may try to download the redistributable CVX package from the CVX website through this link: [http://cvxr.com/cvx/download/](http://cvxr.com/cvx/download/). Once downloaded, copy the file, as is, to the SRP_matlab file. Replace the old cvx folder by the new one.
-3. Edit `Main_Ver1_3.m`
-  * `Main_Ver1_3` is the script that runs the whole package. It is divided into different sections that must be executed sequentially. We will explain each section, its role, and the required changes.
+3. Edit `Main.m`
+  * `Main` is the script that runs the whole package. It is divided into different sections that must be executed sequentially. We will explain each section, its role, and the required changes.
     1. Adding paths
       * The fist section adds the MATLAB paths for the project folders.
       * **Run this section without changes.**
