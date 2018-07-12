@@ -1,6 +1,8 @@
 # Sphero Distributed Robotic Platform
 The Sphero Distributed Robotic Platform is developed at the University of Texas at Dallas (UTD). It consists of a Matlab platform, which relies on the MATLAB [Sphero Connectivity Package](https://www.mathworks.com/matlabcentral/fileexchange/52481-sphero-connectivity-package), and a ROS platform that will be made available soon. This platform provides control over a group of Sphero robots, in a centralized or distributed manner, and monitors the robots through a webcam. The package is used to test and collect experimental results for several novel control algorithms.
 
+![Spheros](/Images/Spheros.jpg)
+
 ## Outline of sphero_matlab README Documentation
 * [About the Spheros](#about-the-spheros)
 * [Requirements](#requirements)
@@ -17,6 +19,8 @@ The Sphero Distributed Robotic Platform is developed at the University of Texas 
 
 ## About the Spheros
 The Sphero robot is small sized spherical robot. It has two motors that roll on the internal surface of its plastic waterproof shell allowing the robot to move. When the robot starts, its current heading, is set to be its reference heading. Thus, every time the robot starts it has a new reference heading. The robots use Bluetooth technology for their wireless communications.
+
+![Sphero screenshot](/Images/Sphero_Inside.jpg)
 
 ## Requirements
 The package requirements can be divided into three categories:
