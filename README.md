@@ -1,9 +1,11 @@
-# Sphero Distributed Robotic Platform
-The Sphero Distributed Robotic Platform is developed at the University of Texas at Dallas (UTD). It consists of a Matlab platform, which relies on the MATLAB [Sphero Connectivity Package](https://www.mathworks.com/matlabcentral/fileexchange/52481-sphero-connectivity-package), and a ROS platform that will be made available soon. This platform provides control over a group of Sphero robots, in a centralized or distributed manner, and monitors the robots through a webcam. The package is used to test and collect experimental results for several novel control algorithms.
+# Sphero Robotic Platform for Matlab (SRP_matlab)
+The Sphero Robotic Platform is developed at the University of Texas at Dallas (UTD). The platform uses Matlab as an environment to control Sphero robots. The platform relies on the MATLAB [Sphero Connectivity Package](https://www.mathworks.com/matlabcentral/fileexchange/52481-sphero-connectivity-package) to communicate with the Sphero robots. It provides many other files, developed at UTD, that detect and monitor the Sphero robots using a webcam, track their motion over time, estimate their states using an extended Kalman Filter, control them based on holonomic and non-holonomic models, and store the experimental data to create plots and videos. The package can be used to control the robots in a centralized or distributed manner using a single computer or multiple computers through the TCP/IP functions included.
 
-![Spheros](/Images/Spheros.jpg)
+The package contains an application on the Sphero Robotic Platform in which a high-level controller is presented to perform distributed formation control experiments as seen in [this video](https://youtu.be/AxT-fFcGQoA). As of now, the package can be used to test and collect experimental results for several novel control algorithms. A variant of the package that targets ROS (Robot Operating System) on Linux as its environment will be made available soon.
 
-## Outline of sphero_matlab README Documentation
+![Spheros](/Images/Spheros.jpg "Sphero robots in grid formation")
+
+## Outline of SRP_matlab README Documentation
 * [About the Spheros](#about-the-spheros)
 * [Requirements](#requirements)
 * [Package Organization](#package-organization)
@@ -20,7 +22,7 @@ The Sphero Distributed Robotic Platform is developed at the University of Texas 
 ## About the Spheros
 The Sphero robot is small sized spherical robot. It has two motors that roll on the internal surface of its plastic waterproof shell allowing the robot to move. When the robot starts, its current heading, is set to be its reference heading. Thus, every time the robot starts it has a new reference heading. The robots use Bluetooth technology for their wireless communications.
 
-![Sphero screenshot](/Images/Sphero_Inside.jpg)
+![Sphero screenshot](/Images/Sphero_Inside.jpg "Inside the Sphero robot")
 
 ## Requirements
 The package requirements can be divided into three categories:
@@ -38,6 +40,8 @@ The package requirements can be divided into three categories:
       * Instrument Control Toolbox
       * MATLAB Support Packages for USB Webcams
     * For more information on adding toolboxes visit the Mathworks [Manage Your Add-Ons](https://www.mathworks.com/help/matlab/matlab_env/manage-your-add-ons.html) webpage.
+
+![Sphero Platform](/Images/Platform.jpg "Sphero robots and a webcam")
 * Hardware:
   * Computer(s):
     * The package requires at least one computer to run. It has been tested with up to three computers running the same experiment session together. We have tested the platform on multiple computers:
@@ -118,6 +122,8 @@ We will make the following assumptions when explaining how to use the package:
 Before running the package, you should setup the physical environment in which the experiments will be performed. Start by finding a large space where you can run the experiments. The space should have a black background and preferably a flat carpet-like surface. Tile floors work or stamped concrete, but they might affect the performance of the package if they were reflective and/or not flat. Large gaps between tiles, that cause Spheros to wobble when traversing, are considered obstacles for the Spheros.
 Next, setup your camera. Try to center the camera so that it overshadows the Spheros' operation area. Try to elevate the camera and point it vertically down as much as possible. This will improve the platform's image processing. In our experiments, we placed the camera at a hight of about 6.5' or 2 meters. The camera's optical axis made an angle of about 30 degrees with the line pointing vertically downward. These values serve an informative role only. They need not be followed exactly. We will continue the camera setup step in the [Using the Package](#using-the-package) section.
 
+![Experiment_setup](/Images/ExprSetup.jpg "Experimental setup with multiple computers")
+
 You should also pair the Spheros to your computer. Trying to connect to unpaired Spheros may result in MATLAB crashing. You can pair the Spheros by following these steps:
 1. Double tap the Sphero to wake it up. It should blink with its three identifying colors. The color sequence represents the Sphero's name; e.g. if it blink red-green-red then its name is Sphero-RGR. Note that the color sequence is not unique. If you have multiple robots with the same name, you cannot connect to them using this package.
 2. Open your Bluetooth preferences or management tool on your device and refresh the list of available devices.
@@ -144,21 +150,21 @@ Note that the addresses must be identical in the first three fields but differen
 
 ### Preparing the Package
 Now it is time to prepare the package for use on your machine. Follow these steps to prepare your package:
-1. Get the sphero_matlab package
+1. Get the SRP_matlab package
   * You can clone the package by running the following command in terminal:
   ```
   cd path
-  git clone http://github.com/The-SS/sphero_matlab.git
+  git clone http://github.com/TSummersLab/SRP_matlab.git
   ```
   Here, `path` refers to the directory where you want to store and run the package. e.g. `path` =  `~/Documents/MATLAB`
-  * Alternatively, you can go to the [Github repository](https://github.com/The-SS/sphero_matlab) and choose `Download Zip` under the `Clone or Download` button. You can then unzip the downloaded folder and place it wherever you want. We will call the insallation location `path`
+  * Alternatively, you can go to the [Github repository](https://github.com/TSummersLab/SRP_matlab) and choose `Download Zip` under the `Clone or Download` button. You can then unzip the downloaded folder and place it wherever you want. We will call the insallation location `path`
   * Make sure you know where you store the package. The directory is required by MATLAB.
 2. Install the cvx Package
-  * Open a MATLAB session and navigate to the directory where sphero_matlab is placed. The "Current Folder" window should show the files inside sphero_matlab.
+  * Open a MATLAB session and navigate to the directory where SRP_matlab is placed. The "Current Folder" window should show the files inside SRP_matlab.
   * In the "Current Folder" window, click on the arrow next to cvx to show the files inside of it.
   * Double click on `cvx_setup.m` in the cvx file. It should open up in the MATLAB Editor
   * Hit the green run button to run the script. This will install CVX.
-  * If CVX cannot be installed, you may try to download the redistributable CVX package from the CVX website through this link: [http://cvxr.com/cvx/download/](http://cvxr.com/cvx/download/). Once downloaded, copy the file, as is, to the sphero_matlab file. Replace the old cvx folder by the new one.
+  * If CVX cannot be installed, you may try to download the redistributable CVX package from the CVX website through this link: [http://cvxr.com/cvx/download/](http://cvxr.com/cvx/download/). Once downloaded, copy the file, as is, to the SRP_matlab file. Replace the old cvx folder by the new one.
 3. Edit `Main_Ver1_3.m`
   * `Main_Ver1_3` is the script that runs the whole package. It is divided into different sections that must be executed sequentially. We will explain each section, its role, and the required changes.
     1. Adding paths
@@ -281,7 +287,7 @@ Now it is time to prepare the package for use on your machine. Follow these step
 Once the package is setup and configured, it is easier to use. Below is a summary of the steps required to run the package:
 1. Adding paths
    * No changes necessary.
-   * Run the section once when a new session of MATLAB starts. Make sure you are in the sphero_matlab directory.
+   * Run the section once when a new session of MATLAB starts. Make sure you are in the SRP_matlab directory.
 2. Preallocate parameters
    * Changes may be made.
    * Run the section once when a new session of MATLAB starts. Run again if changes to parameters in this section are made.
@@ -358,11 +364,12 @@ Below are some objects and variables that might be of interest when debugging or
   * The cam object contains the MATLAB camera object. It contains all the camera parameters, some of which can be modified. It can be passed to function to view the camera field of view (`preview` function), and acquire an image (`snapshot` function), as well as other functions. For more information refer to the [following link](https://www.mathworks.com/help/supportpkg/usbwebcams/ug/acquire-images-from-webcams.html#bt6eebl).
 
 ## Useful Resources
-In addition to the paper in `sphero_matlab/Paper`, below are some resources that might be useful to better understand how the package works:
+In addition to the paper in `SRP_matlab/Paper`, below are some resources that might be useful to better understand how the package works:
 - [MATLAB single camera calibration](https://www.mathworks.com/help/vision/ug/single-camera-calibrator-app.html)
 - [Camera calibration and 3D reconstruction](https://docs.opencv.org/2.4.13.4/modules/calib3d/doc/camera_calibration_and_3d_reconstruction.html#camera-calibration-and-3d-reconstruction)
-- [Distributed formation control of multi-agent systems using complex laplacian](https://ieeexplore.ieee.org/document/6750042/)
-- [Robust distributed for- mation control of agents with higher-order dynamics](https://drive.google.com/uc?export=download&id=1lEfn3IqaZaY0SapB_cI86XH1-4zMrFxR)
+- [Robust distributed formation control of agents with higher-order dynamics](https://drive.google.com/uc?export=download&id=1lEfn3IqaZaY0SapB_cI86XH1-4zMrFxR)
+- [Video: Robust Distributed Planar Formation Control for Higher-Order Holonomic and Nonholonomic Agents](https://youtu.be/1pfgXESMHxE)
+- [Video: Robust Distributed Formation Control of Sphero Robots with Collision Avoidance](https://youtu.be/AxT-fFcGQoA)
 
 ## Acknowledgements
 
