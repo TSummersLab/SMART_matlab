@@ -1,5 +1,5 @@
-# Sphero MATLAB
-The Sphero MATLAB platform is a platform developed at the University of Texas at Dallas (UTD). The sphero_matlab package, which relies on the MATLAB [Sphero Connectivity Package](https://www.mathworks.com/matlabcentral/fileexchange/52481-sphero-connectivity-package), provides a platform to control a group of Sphero robots, in a centralized or distributed manner, and monitoring the robots through a webcam. The package is used to collect experimental results for novel control algorithms.
+# Sphero Distributed Robotic Platform
+The Sphero Distributed Robotic Platform is developed at the University of Texas at Dallas (UTD). It consists of a Matlab platform, which relies on the MATLAB [Sphero Connectivity Package](https://www.mathworks.com/matlabcentral/fileexchange/52481-sphero-connectivity-package), and a ROS platform that will be made available soon. This platform provides control over a group of Sphero robots, in a centralized or distributed manner, and monitors the robots through a webcam. The package is used to test and collect experimental results for several novel control algorithms.
 
 ## Outline of sphero_matlab README Documentation
 * [About the Spheros](#about-the-spheros)
