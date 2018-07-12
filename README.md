@@ -1,9 +1,9 @@
 # Sphero Robotic Platform for Matlab (SRP_matlab)
 The Sphero Robotic Platform is developed at the University of Texas at Dallas (UTD). The platform uses Matlab as an environment to control Sphero robots. The platform relies on the MATLAB [Sphero Connectivity Package](https://www.mathworks.com/matlabcentral/fileexchange/52481-sphero-connectivity-package) to communicate with the Sphero robots. It provides many other files, developed at UTD, that detect and monitor the Sphero robots using a webcam, track their motion over time, estimate their states using an extended Kalman Filter, control them based on holonomic and non-holonomic models, and store the experimental data to create plots and videos. The package can be used to control the robots in a centralized or distributed manner using a single computer or multiple computers through the TCP/IP functions included.
 
-The package contains an application on the Sphero Robotic Platform in which a high-level controller is presented to perform distributed formation control experiments as seen in [this video](https://youtu.be/AxT-fFcGQoA). As of now, the package can be used to test and collect experimental results for several novel control algorithms. A variant of the package that targets ROS (Robot Operating System) on Linux as its environment will be made available soon.
+The package contains an application on the Sphero Robotic Platform in which a high-level controller is presented to perform distributed formation control experiments as seen in [this video](https://youtu.be/AxT-fFcGQoA) which is also linked in the image below. The package can be used to test and collect experimental results for several novel control algorithms. A variant of the package that targets ROS (Robot Operating System) on Linux as its environment will be made available soon.
 
-![Spheros](/Images/Spheros.jpg "Sphero robots in grid formation")
+ [![Sphero demo](/Images/SRP_Video.jpg)](https://youtu.be/AxT-fFcGQoA "Sphero demo video")
 
 ## Outline of SRP_matlab README Documentation
 * [About the Spheros](#about-the-spheros)
