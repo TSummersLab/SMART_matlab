@@ -1,22 +1,22 @@
-%% Sphero Robotic Platform - Matlab (SRP-Matlab)
-% 
-% This script demonstrates how one can use SRP-Matlab to validate a 
+%% Sphero Multi-Agent Robotic Testbed - Matlab (SMART_Matlab)
+%
+% This script demonstrates how one can use SRP-Matlab to validate a
 % distributed formation control strategy experimentally.
 %
-% In particular, the parameters are set to achieve a square grid formation 
-% with 9 Sphero robots, where 3 computers are used and each computer 
-% controls 3 robots. The number of robots, number of computers, and the 
-% desired formation can be changed to one's liking. 
+% In particular, the parameters are set to achieve a square grid formation
+% with 9 Sphero robots, where 3 computers are used and each computer
+% controls 3 robots. The number of robots, number of computers, and the
+% desired formation can be changed to one's liking.
 %
-% Furthermore, the formation control algorithm that is called as a function 
+% Furthermore, the formation control algorithm that is called as a function
 % in the main loop can be replaced by any other multi-agent strategy if
-% desired. 
+% desired.
 %
-% Questions and comments are welcome. 
+% Questions and comments are welcome.
 % See "LICENSE.txt" for license information.
 %
 %
-% Copyright (c) 2017-2018, Sleiman Safaoui, Kaveh Fathian  
+% Copyright (c) 2017-2018, Sleiman Safaoui, Kaveh Fathian
 %
 % Emails:   Sleiman.Safaoui@utdallas.edu
 %           kavehfathian@gmail.com
@@ -46,7 +46,7 @@ SpheroState.numRob      = 9;                        % Total number of robots (co
 %% Test Webcam
 %
 % Webcam must be connected to the computer, and Matlab webcam support package
-% must be installed. 
+% must be installed.
 
 camList = webcamlist;  % Identify Available Webcams
 if isfield(CameraParam,'cam')
@@ -85,8 +85,8 @@ SpheroState                 = SpheroVideoSetup_Ver1_0(SpheroState);
 % Camera must be looking at the arena floor and a checkerboard must be
 % placed on the floor before running this section.
 %
-% If you don't have a checkerboard ready, you can print and use the one 
-% included in the "Images" folder. You need to make sure that "squareSize" 
+% If you don't have a checkerboard ready, you can print and use the one
+% included in the "Images" folder. You need to make sure that "squareSize"
 % is the correct size of each square on your printed checkerboard.
 %
 % For more detail on camera calibration see
@@ -102,8 +102,8 @@ CameraParam = CameraCheckerboard_Ver1_2(CameraParam);
 %% Theta0 estimation
 %
 % In this section we estimate the initil heading direction of each Sphero.
-% The Sphero with LEDs turned on should be placed on the arena floor. Once 
-% a key is pressed the robot rolls forward and its initial heading is estimated. 
+% The Sphero with LEDs turned on should be placed on the arena floor. Once
+% a key is pressed the robot rolls forward and its initial heading is estimated.
 
 clc
 SpheroState.Theta0 = SpheroTheta0_Ver1_5(SpheroState, CameraParam);
@@ -117,12 +117,12 @@ SpheroState.Theta0 = SpheroTheta0_Ver1_5(SpheroState, CameraParam);
 % SpheroTCPIP.server  = 1;
 % SpheroTCPIP.ip      = [];
 %
-% and comments the rest. 
+% and comments the rest.
 %
 % When dealing with more than 1 computer, the computer use TCPIP initially
-% to come to a consensus on the tag number of robots, and communicate the 
-% formation control gains. After this is done, there is no more need for 
-% communication and  experiment runs in a distributed manner. 
+% to come to a consensus on the tag number of robots, and communicate the
+% formation control gains. After this is done, there is no more need for
+% communication and  experiment runs in a distributed manner.
 
 SpheroTCPIP.server  = 0;                % 1 <--> server computer (or only one computer), 0 <--> client computer
 % SpheroTCPIP.ip    = [];               % if only one computer is used
@@ -143,7 +143,7 @@ if SpheroTCPIP.server == 1
 end
 
 
-%% Main loop 
+%% Main loop
 
 clc
 close all
@@ -184,7 +184,7 @@ SpheroState = FormationControl_Ver3_2(iitr,itr,j, SpheroState, CameraParam);
 
 % Sphero control
 disp('Sphero control');
-SpheroState = SpheroControl_Ver3_1(iitr,itr,j, SpheroState, CameraParam);  % Single-integrator control 
+SpheroState = SpheroControl_Ver3_1(iitr,itr,j, SpheroState, CameraParam);  % Single-integrator control
 % SpheroState = SpheroControl_Nonhol_Ver3_2(iitr,itr,j, SpheroState, CameraParam);  % Unicycle control
 
 % Kalman Filter
@@ -216,5 +216,3 @@ end
 %% Disconnect from Spheros
 
 SpheroDisconnect_Ver1_1(SpheroState);
-
-
