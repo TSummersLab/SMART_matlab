@@ -5,7 +5,7 @@ The package contains an application on the Sphero Multi-Agent Robotic Testbed in
 
  [![Sphero demo](/Images/SRP_Video.jpg)](https://youtu.be/AxT-fFcGQoA "Sphero demo video")
 
-## Outline of SRP_matlab README Documentation
+## Outline of SMART_matlab README Documentation
 * [About the Spheros](#about-the-spheros)
 * [Requirements](#requirements)
 * [Package Organization](#package-organization)
@@ -150,21 +150,21 @@ Note that the addresses must be identical in the first three fields but differen
 
 ### Preparing the Package
 Now it is time to prepare the package for use on your machine. Follow these steps to prepare your package:
-1. Get the SRP_matlab package
+1. Get the SMART_matlab package
   * You can clone the package by running the following command in terminal:
   ```
   cd path
-  git clone http://github.com/TSummersLab/SRP_matlab.git
+  git clone http://github.com/TSummersLab/SMART_matlab.git
   ```
   Here, `path` refers to the directory where you want to store and run the package. e.g. `path` =  `~/Documents/MATLAB`
-  * Alternatively, you can go to the [Github repository](https://github.com/TSummersLab/SRP_matlab) and choose `Download Zip` under the `Clone or Download` button. You can then unzip the downloaded folder and place it wherever you want. We will call the insallation location `path`
+  * Alternatively, you can go to the [Github repository](https://github.com/TSummersLab/SMART_matlab) and choose `Download Zip` under the `Clone or Download` button. You can then unzip the downloaded folder and place it wherever you want. We will call the insallation location `path`
   * Make sure you know where you store the package. The directory is required by MATLAB.
 2. Install the cvx Package
-  * Open a MATLAB session and navigate to the directory where SRP_matlab is placed. The "Current Folder" window should show the files inside SRP_matlab.
+  * Open a MATLAB session and navigate to the directory where SMART_matlab is placed. The "Current Folder" window should show the files inside SMART_matlab.
   * In the "Current Folder" window, click on the arrow next to cvx to show the files inside of it.
   * Double click on `cvx_setup.m` in the cvx file. It should open up in the MATLAB Editor
   * Hit the green run button to run the script. This will install CVX.
-  * If CVX cannot be installed, you may try to download the redistributable CVX package from the CVX website through this link: [http://cvxr.com/cvx/download/](http://cvxr.com/cvx/download/). Once downloaded, copy the file, as is, to the SRP_matlab file. Replace the old cvx folder by the new one.
+  * If CVX cannot be installed, you may try to download the redistributable CVX package from the CVX website through this link: [http://cvxr.com/cvx/download/](http://cvxr.com/cvx/download/). Once downloaded, copy the file, as is, to the SMART_matlab file. Replace the old cvx folder by the new one.
 3. Edit `Main.m`
   * `Main` is the script that runs the whole package. It is divided into different sections that must be executed sequentially. We will explain each section, its role, and the required changes.
     1. Adding paths
@@ -287,7 +287,7 @@ Now it is time to prepare the package for use on your machine. Follow these step
 Once the package is setup and configured, it is easier to use. Below is a summary of the steps required to run the package:
 1. Adding paths
    * No changes necessary.
-   * Run the section once when a new session of MATLAB starts. Make sure you are in the SRP_matlab directory.
+   * Run the section once when a new session of MATLAB starts. Make sure you are in the SMART_matlab directory.
 2. Preallocate parameters
    * Changes may be made.
    * Run the section once when a new session of MATLAB starts. Run again if changes to parameters in this section are made.
@@ -364,7 +364,7 @@ Below are some objects and variables that might be of interest when debugging or
   * The cam object contains the MATLAB camera object. It contains all the camera parameters, some of which can be modified. It can be passed to function to view the camera field of view (`preview` function), and acquire an image (`snapshot` function), as well as other functions. For more information refer to the [following link](https://www.mathworks.com/help/supportpkg/usbwebcams/ug/acquire-images-from-webcams.html#bt6eebl).
 
 ## Useful Resources
-In addition to the paper in `SRP_matlab/Paper`, below are some resources that might be useful to better understand how the package works:
+In addition to the paper in `SMART_matlab/Paper`, below are some resources that might be useful to better understand how the package works:
 - [MATLAB single camera calibration](https://www.mathworks.com/help/vision/ug/single-camera-calibrator-app.html)
 - [Camera calibration and 3D reconstruction](https://docs.opencv.org/2.4.13.4/modules/calib3d/doc/camera_calibration_and_3d_reconstruction.html#camera-calibration-and-3d-reconstruction)
 - [Robust distributed formation control of agents with higher-order dynamics](https://drive.google.com/uc?export=download&id=1lEfn3IqaZaY0SapB_cI86XH1-4zMrFxR)
