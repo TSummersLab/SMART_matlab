@@ -212,7 +212,7 @@ Now it is time to prepare the package for use on your machine. Follow these step
       * Sets up the parameters required for recording a movie after the experiment is done.
       * To record a movie set `SpheroState.Video.Record` to `true`. If you do not want to record a movie, set `SpheroState.Video.Record` to `false`.
       * If recording a video, change the name of the video by modifying the `SpheroState.Video.VideoName` field.
-      * This will not begin recording the movie.
+      * This will not begin recording the movie immediately. The movie will be created and then stored when the experiment is performed.
       * **This section must be executed regardless of whether a movie is to be recorded or not.** It contains variables that must be initialized at least once.
     6. Initialize camera and detect checkerboard
       * Initializes the camera parameters and detects the checkerboard to find the extrinsic matrix which allows a single camera to reconstruct the world position of the Spheros from the pixel value.
